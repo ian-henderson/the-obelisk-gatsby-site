@@ -1,11 +1,10 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import Bio from "../components/bio"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+// prettier-ignore
+import { Bio, Layout, SEO } from "../components"
 
-const BlogPostTemplate = ({ data, location }) => {
+export default function BlogPostTemplate({ data, location }) {
   const post = data.markdownRemark
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const { previous, next } = data
@@ -63,8 +62,6 @@ const BlogPostTemplate = ({ data, location }) => {
     </Layout>
   )
 }
-
-export default BlogPostTemplate
 
 export const pageQuery = graphql`
   query BlogPostBySlug(
