@@ -2,18 +2,18 @@ import * as React from "react"
 import { Link, graphql } from "gatsby"
 
 // prettier-ignore
-import { Bio, Layout, SEO } from "../components"
+import { Layout, SEO } from "../components"
 
 export default function BlogPostTemplate({ data, location }) {
-  const post = data.markdownRemark
-  const siteTitle = data.site.siteMetadata?.title || `Title`
+  const post = data.contentfulBlogPost
+  const siteTitle = data.site?.siteMetadata?.title || `Title`
   const { previous, next } = data
 
   return (
-    <Layout location={location} title={siteTitle}>
+    <Layout title={siteTitle} {...{ location }}>
       <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
+        description={post?.description?.internal?.content}
+        title={post?.title}
       />
       <article
         className="blog-post"
@@ -21,83 +21,49 @@ export default function BlogPostTemplate({ data, location }) {
         itemType="http://schema.org/Article"
       >
         <header>
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
-          <p>{post.frontmatter.date}</p>
+          <h1 itemProp="headline">{post?.title}</h1>
+          <p>{post?.publishDate}</p>
         </header>
         <section
-          dangerouslySetInnerHTML={{ __html: post.html }}
+          dangerouslySetInnerHTML={{
+            __html: post?.body?.childMarkdownRemark?.html,
+          }}
           itemProp="articleBody"
         />
         <hr />
-        <footer>
-          <Bio />
-        </footer>
+        <footer></footer>
       </article>
-      <nav className="blog-post-nav">
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
-            {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
-              </Link>
-            )}
-          </li>
-          <li>
-            {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
-              </Link>
-            )}
-          </li>
-        </ul>
-      </nav>
     </Layout>
   )
 }
 
 export const pageQuery = graphql`
-  query BlogPostBySlug(
-    $id: String!
-    $previousPostId: String
-    $nextPostId: String
-  ) {
+  query BlogPostBySlug($slug: String!) {
     site {
       siteMetadata {
         title
       }
     }
-    markdownRemark(id: { eq: $id }) {
-      id
-      excerpt(pruneLength: 160)
-      html
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
-        description
+    contentfulBlogPost(slug: { eq: $slug }) {
+      title
+      publishDate(formatString: "MMMM Do, YYYY")
+      heroImage {
+        fluid(maxWidth: 1180, background: "rgb:000000") {
+          ...GatsbyContentfulFluid_tracedSVG
+        }
       }
-    }
-    previous: markdownRemark(id: { eq: $previousPostId }) {
-      fields {
-        slug
+      body {
+        childMarkdownRemark {
+          html
+        }
       }
-      frontmatter {
-        title
-      }
-    }
-    next: markdownRemark(id: { eq: $nextPostId }) {
-      fields {
-        slug
-      }
-      frontmatter {
-        title
+      description {
+        childMarkdownRemark {
+          html
+        }
+        internal {
+          content
+        }
       }
     }
   }

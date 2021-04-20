@@ -2,6 +2,7 @@ import * as React from "react"
 import { Link } from "gatsby"
 import moon from "../images/moon.png"
 import sun from "../images/sun.png"
+import logo from "../images/obelisk-5.svg"
 import Toggle from "./toggle"
 
 export default function Layout({ children, location, title }) {
@@ -18,7 +19,15 @@ export default function Layout({ children, location, title }) {
     if (isRootPath) {
       return (
         <h1 className="main-heading">
-          <Link to="/">{title}</Link>
+          <Link style={{ display: "flex", flexDirection: "row" }} to="/">
+            <img
+              className="logo"
+              src={logo}
+              height="60"
+              alt="The Obelisk Logo"
+            />
+            {title}
+          </Link>
         </h1>
       )
     }
@@ -68,11 +77,7 @@ export default function Layout({ children, location, title }) {
         {renderToggle()}
       </header>
       <main>{children}</main>
-      <footer>
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
-      </footer>
+      <footer>© {new Date().getFullYear()}</footer>
     </div>
   )
 }

@@ -1,11 +1,12 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import { Bio, Layout, SEO } from "../components"
+import { Layout, SEO } from "../components"
 
-export default function BlogIndex({ data, location }) {
+export default function Index({ data, location }) {
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  const posts = data.allMarkdownRemark.nodes
+  const siteDescription = data.site.siteMetadata?.description || `Description`
+  const posts = data.allContentfulBlogPost.edges
 
   if (posts.length === 0) {
     return (
@@ -13,19 +14,17 @@ export default function BlogIndex({ data, location }) {
         <SEO title="All posts" />
         <Bio />
         <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
+          No articles posts found. Add markdown posts to "content/article" (or
+          the directory you specified for the "gatsby-source-filesystem" plugin
+          in gatsby-config.js).
         </p>
       </Layout>
     )
   }
 
-  function renderPost(post) {
-    const title = post.frontmatter.title || post.fields.slug
-
+  function renderPost({ node: { description, publishDate, slug, title } }) {
     return (
-      <li key={post.fields.slug}>
+      <li key={slug}>
         <article
           className="post-list-item"
           itemScope
@@ -33,16 +32,16 @@ export default function BlogIndex({ data, location }) {
         >
           <header>
             <h2>
-              <Link to={post.fields.slug} itemProp="url">
-                <span itemProp="headline">{title}</span>
+              <Link to={`article/${slug}`} itemProp="url">
+                <span itemProp="headline">{title || "Title"}</span>
               </Link>
             </h2>
-            <small>{post.frontmatter.date}</small>
+            <small>{publishDate}</small>
           </header>
           <section>
             <p
               dangerouslySetInnerHTML={{
-                __html: post.frontmatter.description || post.excerpt,
+                __html: description?.childMarkdownRemark?.html || "",
               }}
               itemProp="description"
             />
@@ -55,7 +54,7 @@ export default function BlogIndex({ data, location }) {
   return (
     <Layout title={siteTitle} {...{ location }}>
       <SEO title="All posts" />
-      <Bio />
+      <div className="bio">{siteDescription}</div>
       <ol style={{ listStyle: `none` }}>{posts.map(renderPost)}</ol>
     </Layout>
   )
@@ -65,19 +64,27 @@ export const pageQuery = graphql`
   query {
     site {
       siteMetadata {
+        description
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      nodes {
-        excerpt
-        fields {
-          slug
-        }
-        frontmatter {
-          date(formatString: "MMMM DD, YYYY")
+    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+      edges {
+        node {
           title
-          description
+          slug
+          publishDate(formatString: "MMMM Do, YYYY")
+          tags
+          heroImage {
+            fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
+              ...GatsbyContentfulFluid_tracedSVG
+            }
+          }
+          description {
+            childMarkdownRemark {
+              html
+            }
+          }
         }
       }
     }
