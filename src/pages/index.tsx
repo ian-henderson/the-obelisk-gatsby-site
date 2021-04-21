@@ -11,12 +11,11 @@ export default function Index({ data, location }) {
   if (posts.length === 0) {
     return (
       <Layout title={siteTitle} {...{ location }}>
-        <SEO title="All posts" />
-        <Bio />
+        <SEO title={siteTitle} />
         <p>
-          No articles posts found. Add markdown posts to "content/article" (or
-          the directory you specified for the "gatsby-source-filesystem" plugin
-          in gatsby-config.js).
+          No blog posts found. Add markdown posts to "content/article" (or the
+          directory you specified for the "gatsby-source-filesystem" plugin in
+          gatsby-config.js).
         </p>
       </Layout>
     )

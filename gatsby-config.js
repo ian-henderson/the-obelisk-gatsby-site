@@ -106,31 +106,34 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.nodes.map(node => {
-                return Object.assign({}, node.frontmatter, {
-                  description: node.excerpt,
-                  date: node.frontmatter.date,
-                  url: site.siteMetadata.siteUrl + node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + node.fields.slug,
-                  custom_elements: [{ "content:encoded": node.html }],
-                })
-              })
-            },
+            serialize: ({ query: { allContentfulBlogPost, site } }) =>
+              allContentfulBlogPost.edges.map(({ node }) => ({
+                custom_elements: [
+                  { "content:encoded": node.body.childMarkdownRemark.html },
+                ],
+                date: node.publishDate,
+                description: node.description.description,
+                guid: site.siteMetadata.siteUrl + node.slug,
+                title: node.title,
+                url: site.siteMetadata.siteUrl + node.slug,
+              })),
             query: `
               {
-                allMarkdownRemark(
-                  sort: { order: DESC, fields: [frontmatter___date] },
+                allContentfulBlogPost(
+                  sort: {fields: publishDate, order: DESC}
                 ) {
-                  nodes {
-                    excerpt
-                    html
-                    fields {
+                  edges {
+                    node {
                       slug
-                    }
-                    frontmatter {
-                      title
-                      date
+                      body {
+                        childMarkdownRemark {
+                          html
+                        }
+                      }
+                      description {
+                        description
+                      }
+                      publishDate
                     }
                   }
                 }
