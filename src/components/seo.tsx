@@ -25,7 +25,7 @@ export default function SEO({ description, lang, meta, title }) {
   )
 
   const [theme, setTheme] = React.useState(null)
-  React.useEffect(() => setTheme(window.__theme))
+  React.useEffect(() => setTheme(window.__theme), [setTheme])
 
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
@@ -33,8 +33,8 @@ export default function SEO({ description, lang, meta, title }) {
   return (
     <Helmet
       htmlAttributes={{ lang }}
-      title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+      title={title || defaultTitle}
+      titleTemplate={title ? `%s | ${defaultTitle}` : defaultTitle}
       meta={[
         {
           name: `description`,
@@ -66,7 +66,7 @@ export default function SEO({ description, lang, meta, title }) {
         },
         {
           name: `theme-color`,
-          content: theme === "light" ? "#ffa8c5" : "#282c35",
+          content: theme === "light" ? "white" : "#181a1b",
         },
       ].concat(meta)}
     />

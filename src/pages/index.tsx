@@ -11,7 +11,7 @@ export default function Index({ data, location }) {
   if (posts.length === 0) {
     return (
       <Layout title={siteTitle} {...{ location }}>
-        <SEO title={siteTitle} />
+        <SEO />
         <p>
           No blog posts found. Add markdown posts to "content/article" (or the
           directory you specified for the "gatsby-source-filesystem" plugin in
@@ -38,12 +38,7 @@ export default function Index({ data, location }) {
             <small>{publishDate}</small>
           </header>
           <section>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: description?.childMarkdownRemark?.html || "",
-              }}
-              itemProp="description"
-            />
+            <p>{description?.childMarkdownRemark?.excerpt}</p>
           </section>
         </article>
       </li>
@@ -52,7 +47,7 @@ export default function Index({ data, location }) {
 
   return (
     <Layout title={siteTitle} {...{ location }}>
-      <SEO title="All posts" />
+      <SEO />
       <div className="bio">{siteDescription}</div>
       <ol style={{ listStyle: `none` }}>{posts.map(renderPost)}</ol>
     </Layout>
@@ -73,15 +68,9 @@ export const pageQuery = graphql`
           title
           slug
           publishDate(formatString: "MMMM Do, YYYY")
-          tags
-          heroImage {
-            fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
-              ...GatsbyContentfulFluid_tracedSVG
-            }
-          }
           description {
             childMarkdownRemark {
-              html
+              excerpt
             }
           }
         }

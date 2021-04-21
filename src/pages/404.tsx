@@ -1,6 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 
+// prettier-ignore
 import { Layout, SEO } from "../components"
 
 export default function NotFoundPage({ data, location }) {

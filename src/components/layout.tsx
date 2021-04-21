@@ -13,7 +13,7 @@ export default function Layout({ children, location, title }) {
   React.useEffect(() => {
     setTheme(window.__theme)
     window.__onThemeChange = () => setTheme(window.__theme)
-  })
+  }, [setTheme])
 
   function renderHeader() {
     if (isRootPath) {
@@ -21,10 +21,10 @@ export default function Layout({ children, location, title }) {
         <h1 className="main-heading">
           <Link style={{ display: "flex", flexDirection: "row" }} to="/">
             <img
-              className="logo"
-              src={logo}
-              height="60"
               alt="The Obelisk Logo"
+              className="logo"
+              height="50"
+              src={logo}
             />
             {title}
           </Link>
@@ -45,20 +45,20 @@ export default function Layout({ children, location, title }) {
     const icons = {
       checked: (
         <img
-          src={moon}
-          width="16"
+          alt="moon"
           height="16"
-          role="presentation"
+          src={moon}
           style={{ pointerEvents: "none" }}
+          width="16"
         />
       ),
       unchecked: (
         <img
-          src={sun}
-          width="16"
+          alt="sun"
           height="16"
-          role="presentation"
+          src={sun}
           style={{ pointerEvents: "none" }}
+          width="16"
         />
       ),
     }
