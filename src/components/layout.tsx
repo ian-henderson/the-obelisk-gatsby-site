@@ -1,11 +1,19 @@
-import * as React from "react"
-import { Link } from "gatsby"
+import React, { FocusEvent } from "react"
+import { Link, PageRendererProps } from "gatsby"
 import moon from "../images/moon.png"
 import sun from "../images/sun.png"
 import logo from "../images/obelisk-5.svg"
 import Toggle from "./toggle"
 
-export default function Layout({ children, location, title }) {
+declare const __PATH_PREFIX__: string
+declare const window: any
+
+interface ILayout extends PageRendererProps {
+  children: React.ReactNode
+  title: String
+}
+
+export default function Layout({ children, location, title }: ILayout) {
   const rootPath = `${__PATH_PREFIX__}/`
   const isRootPath = location.pathname === rootPath
 
@@ -63,10 +71,11 @@ export default function Layout({ children, location, title }) {
       ),
     }
 
-    function onChange(event) {
+    function onChange(event: FocusEvent<HTMLInputElement>) {
       window.__setPreferredTheme(event.target.checked ? "dark" : "light")
     }
 
+    // @ts-ignore
     return <Toggle checked={theme === "dark"} {...{ icons, onChange }} />
   }
 

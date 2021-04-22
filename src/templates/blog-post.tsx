@@ -1,13 +1,44 @@
 import * as React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql, Link, PageProps } from "gatsby"
 
 // prettier-ignore
 import { Layout, SEO } from "../components"
 
-export default function BlogPostTemplate({ data, location }) {
-  const post = data.contentfulBlogPost
-  const siteTitle = data.site?.siteMetadata?.title || `Title`
-  const { previous, next } = data
+type DataProps = {
+  contentfulBlogPost: {
+    body: {
+      childMarkdownRemark: {
+        html: string
+      }
+    }
+    description: {
+      internal: {
+        content: string
+      }
+    }
+    publishDate: string
+    title: string
+  }
+  next: {
+    slug: string
+    title: string
+  }
+  previous: {
+    slug: string
+    title: string
+  }
+  site: {
+    siteMetadata: {
+      title: string
+    }
+  }
+}
+
+export default function BlogPost({ data, location }: PageProps<DataProps>) {
+  console.log({ data })
+  const post = data?.contentfulBlogPost
+  const siteTitle = data?.site?.siteMetadata?.title || `Title`
+  const { previous, next } = data || {}
 
   return (
     <Layout title={siteTitle} {...{ location }}>
@@ -33,18 +64,48 @@ export default function BlogPostTemplate({ data, location }) {
         <hr />
         <footer></footer>
       </article>
+      <nav className="blog-post-nav">
+        <ul
+          style={{
+            display: `flex`,
+            flexWrap: `wrap`,
+            justifyContent: `space-between`,
+            listStyle: `none`,
+            padding: 0,
+          }}
+        >
+          <li>
+            {previous && (
+              <Link to={`/article/${previous.slug}`} rel="prev">
+                ← {previous.title}
+              </Link>
+            )}
+          </li>
+          <li>
+            {next && (
+              <Link to={`/article/${next.slug}`} rel="next">
+                {next.title} →
+              </Link>
+            )}
+          </li>
+        </ul>
+      </nav>
     </Layout>
   )
 }
 
 export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
+  query BlogPostById(
+    $id: String!
+    $previousPostId: String
+    $nextPostId: String
+  ) {
     site {
       siteMetadata {
         title
       }
     }
-    contentfulBlogPost(slug: { eq: $slug }) {
+    contentfulBlogPost(id: { eq: $id }) {
       title
       publishDate(formatString: "MMMM Do, YYYY")
       heroImage {
@@ -65,6 +126,14 @@ export const pageQuery = graphql`
           content
         }
       }
+    }
+    next: contentfulBlogPost(id: { eq: $nextPostId }) {
+      slug
+      title
+    }
+    previous: contentfulBlogPost(id: { eq: $previousPostId }) {
+      slug
+      title
     }
   }
 `

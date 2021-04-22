@@ -1,9 +1,21 @@
 import * as React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql, Link, PageProps } from "gatsby"
 
 import { Layout, SEO } from "../components"
 
-export default function Index({ data, location }) {
+type DataProps = {
+  allContentfulBlogPost: {
+    edges: Array<any>
+  }
+  site: {
+    siteMetadata: {
+      description: string
+      title: string
+    }
+  }
+}
+
+export default function Index({ data, location }: PageProps<DataProps>) {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const siteDescription = data.site.siteMetadata?.description || `Description`
   const posts = data.allContentfulBlogPost.edges
