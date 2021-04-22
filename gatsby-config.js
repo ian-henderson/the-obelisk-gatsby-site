@@ -37,7 +37,9 @@ module.exports = {
     title: `The Obelisk`,
     description: `A publication which empowers writers to focus on big problems and their solutions.`,
     siteUrl: `https://theobelisk.crypto`,
-    twitter: ``,
+    social: {
+      twitter: ``,
+    },
   },
   plugins: [
     {

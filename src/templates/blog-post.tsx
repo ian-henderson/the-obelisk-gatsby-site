@@ -2,10 +2,20 @@ import * as React from "react"
 import { graphql, Link, PageProps } from "gatsby"
 
 // prettier-ignore
-import { Layout, SEO } from "../components"
+import { Bio, Layout, SEO } from "../components"
 
 type DataProps = {
   contentfulBlogPost: {
+    author: {
+      image: {
+        gatsbyImageData: any
+      }
+      name: string
+      shortBio: {
+        shortBio: string
+      }
+      title: string
+    }
     body: {
       childMarkdownRemark: {
         html: string
@@ -35,13 +45,9 @@ type DataProps = {
 }
 
 export default function BlogPost({ data, location }: PageProps<DataProps>) {
-  console.log({ data })
-  const post = data?.contentfulBlogPost
-  const siteTitle = data?.site?.siteMetadata?.title || `Title`
-  const { previous, next } = data || {}
-
+  const { contentfulBlogPost: post, next, previous } = data
   return (
-    <Layout title={siteTitle} {...{ location }}>
+    <Layout title={data?.site?.siteMetadata?.title} {...{ location }}>
       <SEO
         description={post?.description?.internal?.content}
         title={post?.title}
@@ -62,7 +68,9 @@ export default function BlogPost({ data, location }: PageProps<DataProps>) {
           itemProp="articleBody"
         />
         <hr />
-        <footer></footer>
+        <footer>
+          <Bio author={post?.author} />
+        </footer>
       </article>
       <nav className="blog-post-nav">
         <ul
@@ -97,8 +105,8 @@ export default function BlogPost({ data, location }: PageProps<DataProps>) {
 export const pageQuery = graphql`
   query BlogPostById(
     $id: String!
-    $previousPostId: String
     $nextPostId: String
+    $previousPostId: String
   ) {
     site {
       siteMetadata {
@@ -106,6 +114,16 @@ export const pageQuery = graphql`
       }
     }
     contentfulBlogPost(id: { eq: $id }) {
+      author {
+        image {
+          gatsbyImageData
+        }
+        name
+        title
+        shortBio {
+          shortBio
+        }
+      }
       title
       publishDate(formatString: "MMMM Do, YYYY")
       heroImage {
