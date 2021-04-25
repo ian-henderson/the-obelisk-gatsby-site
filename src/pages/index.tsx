@@ -2,38 +2,38 @@ import * as React from "react"
 import { graphql, Link, PageProps } from "gatsby"
 
 import { Layout, SEO } from "../components"
+import { Site } from "../types"
 
 type DataProps = {
   allContentfulBlogPost: {
     edges: Array<any>
   }
-  site: {
-    siteMetadata: {
-      description: string
-      title: string
-    }
-  }
+  site: Site
 }
 
 export default function Index({ data, location }: PageProps<DataProps>) {
-  const siteTitle = data.site.siteMetadata?.title || `Title`
-  const siteDescription = data.site.siteMetadata?.description || `Description`
+  const siteTitle = data.site?.siteMetadata?.title || `Title`
+  const siteDescription = data.site?.siteMetadata?.description || `Description`
   const posts = data.allContentfulBlogPost.edges
 
   if (posts.length === 0) {
     return (
       <Layout title={siteTitle} {...{ location }}>
         <SEO />
-        <p>
-          No blog posts found. Add markdown posts to "content/article" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
+        <p>No articles found.</p>
       </Layout>
     )
   }
 
-  function renderPost({ node: { description, publishDate, slug, title } }) {
+  function renderPost({
+    node: {
+      author: { slug: authorSlug },
+      description,
+      publishDate,
+      slug,
+      title,
+    },
+  }) {
     return (
       <li key={slug}>
         <article
@@ -43,7 +43,7 @@ export default function Index({ data, location }: PageProps<DataProps>) {
         >
           <header>
             <h2>
-              <Link to={`article/${slug}`} itemProp="url">
+              <Link to={`${authorSlug}/${slug}`} itemProp="url">
                 <span itemProp="headline">{title || "Title"}</span>
               </Link>
             </h2>
@@ -77,6 +77,9 @@ export const pageQuery = graphql`
     allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
       edges {
         node {
+          author {
+            slug
+          }
           title
           slug
           publishDate(formatString: "MMMM Do, YYYY")

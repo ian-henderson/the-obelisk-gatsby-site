@@ -1,9 +1,11 @@
 require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` })
 
 const contentfulConfig = {
-  accessToken:
-    process.env.CONTENTFUL_ACCESS_TOKEN ||
-    process.env.CONTENTFUL_DELIVERY_TOKEN,
+  accessToken: process.env.CONTENTFUL_HOST
+    ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+    : process.env.CONTENTFUL_ACCESS_TOKEN ||
+      process.env.CONTENTFUL_DELIVERY_TOKEN,
+  host: process.env.CONTENTFUL_HOST,
   spaceId: process.env.CONTENTFUL_SPACE_ID,
 }
 
@@ -19,13 +21,8 @@ const contentfulConfig = {
 // https://www.contentful.com/developers/docs/references/content-preview-api/#/reference/spaces/space/get-a-space/console/js
 //
 // To change back to the normal CDA, remove the CONTENTFUL_HOST variable from your environment.
-if (process.env.CONTENTFUL_HOST) {
-  contentfulConfig.host = process.env.CONTENTFUL_HOST
-  contentfulConfig.accessToken = process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
-}
 
 const { spaceId, accessToken } = contentfulConfig
-
 if (!spaceId || !accessToken) {
   throw new Error(
     "Contentful spaceId and the access token need to be provided."
@@ -35,7 +32,7 @@ if (!spaceId || !accessToken) {
 module.exports = {
   siteMetadata: {
     title: `The Obelisk`,
-    description: `A publication which empowers writers to focus on big problems and their solutions.`,
+    description: `Tag line`,
     siteUrl: `https://theobelisk.crypto`,
     social: {
       twitter: ``,

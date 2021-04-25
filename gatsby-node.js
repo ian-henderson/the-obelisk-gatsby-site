@@ -1,24 +1,44 @@
 const path = require("path")
 
 exports.createPages = ({ graphql, actions: { createPage } }) => {
-  const blogPost = path.resolve("./src/templates/blog-post.tsx")
+  const createAuthorPagesPromise = new Promise((resolve, reject) => {
+    const component = path.resolve("./src/templates/author-posts.tsx")
 
-  const query = `
-    {
-      allContentfulBlogPost {
-        edges {
-          node {
-            id
-            slug
-            title
+    const query = ``
+
+    const handleResult = result => {
+      if (result.errors) {
+        console.log(result.errors)
+        reject(result.errors)
+      }
+
+      // ...
+    }
+
+    resolve(graphql(query).then(handleResult))
+  })
+
+  const createBlogPostsPromise = new Promise((resolve, reject) => {
+    const component = path.resolve("./src/templates/blog-post.tsx")
+
+    const query = `
+      {
+        allContentfulBlogPost {
+          edges {
+            node {
+              author {
+                slug
+              }
+              id
+              slug
+              title
+            }
           }
         }
       }
-    }
-  `
+    `
 
-  return new Promise((resolve, reject) => {
-    function handleResult(result) {
+    const handleResult = result => {
       if (result.errors) {
         console.log(result.errors)
         reject(result.errors)
@@ -26,20 +46,21 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
 
       const posts = result.data.allContentfulBlogPost.edges
 
-      posts.forEach(({ node: { id, slug } }, i) => {
-        console.log(id, slug)
-
-        const nextPostId = i === posts.length - 1 ? null : posts[i + 1].node.id
-        const previousPostId = i === 0 ? null : posts[i - 1].node.id
-
+      posts.forEach(({ node: { author, id, slug } }, i) => {
         createPage({
-          path: `/article/${slug}/`,
-          component: blogPost,
-          context: { id, nextPostId, previousPostId },
+          component,
+          context: {
+            id,
+            nextPostId: i === posts.length - 1 ? null : posts[i + 1].node.id,
+            previousPostId: i === 0 ? null : posts[i - 1].node.id,
+          },
+          path: `/${author?.slug}/${slug}/`,
         })
       })
     }
 
     resolve(graphql(query).then(handleResult))
   })
+
+  return Promise.all([/* createAuthorPages, */ createBlogPostsPromise])
 }

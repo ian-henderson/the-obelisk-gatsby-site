@@ -3,51 +3,21 @@ import { graphql, Link, PageProps } from "gatsby"
 
 // prettier-ignore
 import { Bio, Layout, SEO } from "../components"
+import { BlogPost as BlogPostType, Site } from "../types"
 
 type DataProps = {
-  contentfulBlogPost: {
-    author: {
-      image: {
-        gatsbyImageData: any
-      }
-      name: string
-      shortBio: {
-        shortBio: string
-      }
-      title: string
-    }
-    body: {
-      childMarkdownRemark: {
-        html: string
-      }
-    }
-    description: {
-      internal: {
-        content: string
-      }
-    }
-    publishDate: string
-    title: string
-  }
-  next: {
-    slug: string
-    title: string
-  }
-  previous: {
-    slug: string
-    title: string
-  }
-  site: {
-    siteMetadata: {
-      title: string
-    }
-  }
+  contentfulBlogPost: BlogPostType
+  next: BlogPostType
+  previous: BlogPostType
+  site: Site
 }
 
-export default function BlogPost({ data, location }: PageProps<DataProps>) {
-  const { contentfulBlogPost: post, next, previous } = data
+export default function BlogPost({
+  data: { contentfulBlogPost: post, next, previous, site },
+  location,
+}: PageProps<DataProps>) {
   return (
-    <Layout title={data?.site?.siteMetadata?.title} {...{ location }}>
+    <Layout title={site?.siteMetadata?.title} {...{ location }}>
       <SEO
         description={post?.description?.internal?.content}
         title={post?.title}
@@ -84,14 +54,17 @@ export default function BlogPost({ data, location }: PageProps<DataProps>) {
         >
           <li>
             {previous && (
-              <Link to={`/article/${previous.slug}`} rel="prev">
+              <Link
+                to={`/${previous.author?.slug}/${previous.slug}`}
+                rel="prev"
+              >
                 ← {previous.title}
               </Link>
             )}
           </li>
           <li>
             {next && (
-              <Link to={`/article/${next.slug}`} rel="next">
+              <Link to={`/${next.author?.slug}/${next.slug}`} rel="next">
                 {next.title} →
               </Link>
             )}
@@ -146,10 +119,16 @@ export const pageQuery = graphql`
       }
     }
     next: contentfulBlogPost(id: { eq: $nextPostId }) {
+      author {
+        slug
+      }
       slug
       title
     }
     previous: contentfulBlogPost(id: { eq: $previousPostId }) {
+      author {
+        slug
+      }
       slug
       title
     }
