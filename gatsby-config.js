@@ -38,9 +38,7 @@ module.exports = {
       twitter: ``,
     },
   },
-  pathPrefix: "__GATSBY_IPFS_PATH_PREFIX__",
   plugins: [
-    "gatsby-plugin-ipfs",
     {
       resolve: `gatsby-source-contentful`,
       options: contentfulConfig,
