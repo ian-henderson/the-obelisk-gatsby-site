@@ -42,7 +42,7 @@ module.exports = {
       twitter: ``,
     },
   },
-  pathPrefix: process.env.GATSBY_IPFS_PATH_PREFIX,
+  pathPrefix: '__GATSBY_IPFS_PATH_PREFIX__',
   plugins: [
     "gatsby-plugin-ipfs",
     {
