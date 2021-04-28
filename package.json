@@ -38,7 +38,9 @@
     "prettier": "2.2.1"
   },
   "homepage": "https://github.com/ian-henderson/the-obelisk-gatsby-site",
-  "keywords": ["gatsby"],
+  "keywords": [
+    "gatsby"
+  ],
   "license": "0BSD",
   "main": "n/a",
   "repository": {
