@@ -1,6 +1,8 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` })
-}
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` })
+
+Object.entries(process.env).forEach(([key, value]) =>
+  console.log(`${key}: ${value}`)
+)
 
 const contentfulConfig = {
   accessToken: process.env.CONTENTFUL_HOST
