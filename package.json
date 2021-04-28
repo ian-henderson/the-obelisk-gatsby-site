@@ -39,9 +39,7 @@
     "prettier": "2.2.1"
   },
   "homepage": "https://github.com/ian-henderson/the-obelisk-gatsby-site",
-  "keywords": [
-    "gatsby"
-  ],
+  "keywords": ["gatsby"],
   "license": "0BSD",
   "main": "n/a",
   "repository": {
@@ -49,7 +47,7 @@
     "url": "git+https://github.com/ian-henderson/the-obelisk-gatsby-site.git"
   },
   "scripts": {
-    "build": "gatsby build --prefix-paths",
+    "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",

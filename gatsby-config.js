@@ -1,9 +1,5 @@
 require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` })
 
-Object.entries(process.env).forEach(([key, value]) =>
-  console.log(`${key}: ${value}`)
-)
-
 const contentfulConfig = {
   accessToken: process.env.CONTENTFUL_HOST
     ? process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
@@ -42,7 +38,7 @@ module.exports = {
       twitter: ``,
     },
   },
-  pathPrefix: '__GATSBY_IPFS_PATH_PREFIX__',
+  pathPrefix: "__GATSBY_IPFS_PATH_PREFIX__",
   plugins: [
     "gatsby-plugin-ipfs",
     {
