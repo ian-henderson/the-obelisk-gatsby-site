@@ -1,21 +1,33 @@
-import * as React from "react"
-import { graphql, Link, PageProps } from "gatsby"
+import React from "react"
+import { graphql, Link, PageProps, withPrefix } from "gatsby"
 
 // prettier-ignore
 import { Bio, Layout, SEO } from "../components"
 import { BlogPost as BlogPostType, Site } from "../types"
 
 type DataProps = {
-  contentfulBlogPost: BlogPostType
-  next: BlogPostType
-  previous: BlogPostType
-  site: Site
+  contentfulBlogPost: BlogPostType,
+  next: BlogPostType,
+  previous: BlogPostType,
+  site: Site,
 }
 
 export default function BlogPost({
   data: { contentfulBlogPost: post, next, previous, site },
   location,
 }: PageProps<DataProps>) {
+  // const prefix = withPrefix("/")
+
+  // console.log({ location, prefix })
+
+  const nextUrl = next
+    ? `${location.host}${next.author?.slug}/${next.slug}`
+    : null
+
+  const previousUrl = previous
+    ? `${location.host}${previous.author?.slug}/${previous.slug}`
+    : null
+
   return (
     <Layout title={site?.siteMetadata?.title} {...{ location }}>
       <SEO
@@ -54,17 +66,14 @@ export default function BlogPost({
         >
           <li>
             {previous && (
-              <Link
-                to={`/${previous.author?.slug}/${previous.slug}`}
-                rel="prev"
-              >
+              <Link to={previousUrl} rel="prev">
                 ← {previous.title}
               </Link>
             )}
           </li>
           <li>
             {next && (
-              <Link to={`/${next.author?.slug}/${next.slug}`} rel="next">
+              <Link to={nextUrl} rel="next">
                 {next.title} →
               </Link>
             )}

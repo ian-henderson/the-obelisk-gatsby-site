@@ -1,14 +1,3 @@
-export type Person = {
-  image: {
-    gatsbyImageData: any
-  }
-  name: string
-  shortBio: {
-    shortBio: string
-  }
-  title: string
-}
-
 export type BlogPost = {
   author: Person
   body: {
@@ -22,6 +11,17 @@ export type BlogPost = {
     }
   }
   publishDate: string
+  title: string
+}
+
+export type Person = {
+  image: {
+    gatsbyImageData: any
+  }
+  name: string
+  shortBio: {
+    shortBio: string
+  }
   title: string
 }
 

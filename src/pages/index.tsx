@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { graphql, Link, PageProps } from "gatsby"
 
 import { Layout, SEO } from "../components"
@@ -12,6 +12,8 @@ type DataProps = {
 }
 
 export default function Index({ data, location }: PageProps<DataProps>) {
+  console.log({ location })
+
   const siteTitle = data.site?.siteMetadata?.title || `Title`
   const siteDescription = data.site?.siteMetadata?.description || `Description`
   const posts = data.allContentfulBlogPost.edges

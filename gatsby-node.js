@@ -1,6 +1,7 @@
 const path = require("path")
 
 exports.createPages = ({ graphql, actions: { createPage } }) => {
+  /*
   const createAuthorPagesPromise = new Promise((resolve, reject) => {
     const component = path.resolve("./src/templates/author-posts.tsx")
 
@@ -17,6 +18,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
 
     resolve(graphql(query).then(handleResult))
   })
+  */
 
   const createBlogPostsPromise = new Promise((resolve, reject) => {
     const component = path.resolve("./src/templates/blog-post.tsx")
