@@ -89,10 +89,10 @@ const MainHeading = styled.h1`
 `
 
 const HeaderLinkHome = styled(Link)`
-  font-weight: var(--fontWeight-bold);
   font-family: var(--font-heading);
+  font-size: var(--fontSize-4);
+  font-weight: var(--fontWeight-bold);
   text-decoration: none;
-  font-size: var(--fontSize-3);
 `
 
 const Logo = styled.img`

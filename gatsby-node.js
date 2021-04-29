@@ -16,7 +16,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
       }
     `
 
-    const handleResult = result => {
+    function handleResult(result) {
       if (result.errors) {
         console.log(result.errors)
         reject(result.errors)
@@ -56,7 +56,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
       }
     `
 
-    const handleResult = result => {
+    function handleResult(result) {
       if (result.errors) {
         console.log(result.errors)
         reject(result.errors)

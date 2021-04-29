@@ -105,7 +105,7 @@ export default createGlobalStyle`
   code[class*="language-"],
     pre[class*="language-"] {
       font-family: var(--fontFamily-mono);
-      font-size: var(--fontSize-0);
+      font-size: var(--fontSize-1);
     }
 
   body.dark :not(pre) > code[class*="language-"],
