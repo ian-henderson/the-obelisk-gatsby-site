@@ -73,7 +73,7 @@ export default function SEO({ description, lang, meta, title }: ISEO) {
           content: theme === "light" ? "white" : "#181a1b",
         },
       ]}
-      title={metaTitle}
+      title={title}
       titleTemplate={title ? `%s | ${metaTitle}` : metaTitle}
     />
   )

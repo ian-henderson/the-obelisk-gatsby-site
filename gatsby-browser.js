@@ -4,8 +4,7 @@ import "./src/normalize.css"
 // Highlighting for code blocks
 import "prismjs/themes/prism.css"
 
-// custom CSS styles
-import "./src/style.css"
-
 // custom typefaces
-import "typeface-quicksand"
+import "typeface-alegreya"
+import "typeface-alegreya-sans"
+import "typeface-anonymous-pro"

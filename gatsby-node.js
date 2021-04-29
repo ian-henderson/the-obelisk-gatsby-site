@@ -1,11 +1,20 @@
 const path = require("path")
 
 exports.createPages = ({ graphql, actions: { createPage } }) => {
-  /*
-  const createAuthorPagesPromise = new Promise((resolve, reject) => {
+  const createAuthorPages = new Promise((resolve, reject) => {
     const component = path.resolve("./src/templates/author-posts.tsx")
 
-    const query = ``
+    const query = `
+      query AllPersons {
+        allContentfulPerson {
+          edges {
+            node {
+              slug
+            }
+          }
+        }
+      }
+    `
 
     const handleResult = result => {
       if (result.errors) {
@@ -13,19 +22,26 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
         reject(result.errors)
       }
 
-      // ...
+      const persons = result.data.allContentfulPerson.edges
+
+      persons.forEach(({ node: { slug } }, i) => {
+        createPage({
+          component,
+          context: { slug },
+          path: `/${slug}`,
+        })
+      })
     }
 
     resolve(graphql(query).then(handleResult))
   })
-  */
 
-  const createBlogPostsPromise = new Promise((resolve, reject) => {
+  const createBlogPosts = new Promise((resolve, reject) => {
     const component = path.resolve("./src/templates/blog-post.tsx")
 
     const query = `
-      {
-        allContentfulBlogPost {
+      query BlogPosts {
+        allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
           edges {
             node {
               author {
@@ -56,7 +72,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
             nextPostId: i === posts.length - 1 ? null : posts[i + 1].node.id,
             previousPostId: i === 0 ? null : posts[i - 1].node.id,
           },
-          path: `/${author?.slug}/${slug}/`,
+          path: `/${author?.slug}/${slug}`,
         })
       })
     }
@@ -64,5 +80,5 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
     resolve(graphql(query).then(handleResult))
   })
 
-  return Promise.all([/* createAuthorPages, */ createBlogPostsPromise])
+  return Promise.all([createAuthorPages, createBlogPosts])
 }

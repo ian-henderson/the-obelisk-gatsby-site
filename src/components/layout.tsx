@@ -1,16 +1,15 @@
 import React, { FocusEvent } from "react"
 import { Link, PageRendererProps } from "gatsby"
+import styled from "styled-components"
 import moon from "../images/moon.png"
 import sun from "../images/sun.png"
 import logo from "../images/obelisk-5.svg"
+import GlobalStyle from "./global-style"
 import Toggle from "./toggle"
 
-declare const __PATH_PREFIX__: string
-declare const window: any
-
 interface ILayout extends PageRendererProps {
-  children: React.ReactNode
-  title: String
+  children: React.ReactNode;
+  title: string;
 }
 
 export default function Layout({ children, location, title }: ILayout) {
@@ -26,49 +25,24 @@ export default function Layout({ children, location, title }: ILayout) {
   function renderHeader() {
     if (isRootPath) {
       return (
-        <h1 className="main-heading">
+        <MainHeading>
           <Link style={{ display: "flex", flexDirection: "row" }} to="/">
-            <img
-              alt="The Obelisk Logo"
-              className="logo"
-              height="50"
-              src={logo}
-            />
+            <Logo alt="The Obelisk Logo" height="52" src={logo} />
             {title}
           </Link>
-        </h1>
+        </MainHeading>
       )
     }
 
-    return (
-      <Link className="header-link-home" to="/">
-        {title}
-      </Link>
-    )
+    return <HeaderLinkHome to="/">{title}</HeaderLinkHome>
   }
 
   function renderToggle() {
     if (theme === null) return <div style={{ height: "24px" }} />
 
     const icons = {
-      checked: (
-        <img
-          alt="moon"
-          height="16"
-          src={moon}
-          style={{ pointerEvents: "none" }}
-          width="16"
-        />
-      ),
-      unchecked: (
-        <img
-          alt="sun"
-          height="16"
-          src={sun}
-          style={{ pointerEvents: "none" }}
-          width="16"
-        />
-      ),
+      checked: <img alt="moon" height="16" src={moon} width="16" />,
+      unchecked: <img alt="sun" height="16" src={sun} width="16" />,
     }
 
     function onChange(event: FocusEvent<HTMLInputElement>) {
@@ -80,13 +54,54 @@ export default function Layout({ children, location, title }: ILayout) {
   }
 
   return (
-    <div className="global-wrapper" data-is-root-path={isRootPath}>
-      <header className="global-header">
-        {renderHeader()}
-        {renderToggle()}
-      </header>
-      <main>{children}</main>
-      <footer>© {new Date().getFullYear()}</footer>
-    </div>
+    <>
+      <GlobalStyle />
+      <GlobalWrapper>
+        <GlobalHeader>
+          {renderHeader()}
+          {renderToggle()}
+        </GlobalHeader>
+        <main>{children}</main>
+        <footer>© {new Date().getFullYear()}</footer>
+      </GlobalWrapper>
+    </>
   )
 }
+
+const GlobalWrapper = styled.div`
+  margin: var(--spacing-0) auto;
+  max-width: var(--maxWidth-wrapper);
+  padding: var(--spacing-10) var(--spacing-5);
+`
+
+const GlobalHeader = styled.header`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 52px;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-12);
+`
+
+const MainHeading = styled.h1`
+  font-size: var(--fontSize-7);
+  margin: 0;
+`
+
+const HeaderLinkHome = styled(Link)`
+  font-weight: var(--fontWeight-bold);
+  font-family: var(--font-heading);
+  text-decoration: none;
+  font-size: var(--fontSize-3);
+`
+
+const Logo = styled.img`
+  margin-right: var(--spacing-2);
+  margin-bottom: var(--spacing-0);
+  min-width: 50px;
+  filter: var(--logo-color);
+
+  @media (max-width: 42rem) {
+    display: none;
+  }
+`

@@ -12,10 +12,21 @@ export default function AuthorPosts({ data, location }: PageProps<DataProps>) {
   )
 }
 
-/*
 export const pageQuery = graphql`
-  query BlogPostsByAuthorId($id: String!) {
-
+  query BlogPostsByAuthor($slug: String!) {
+    allContentfulBlogPost(
+      filter: { author: { slug: { eq: $slug } } }
+      sort: { fields: publishDate, order: DESC }
+    ) {
+      edges {
+        node {
+          slug
+          title
+        }
+      }
+    }
+    contentfulPerson(slug: { eq: $slug }) {
+      name
+    }
   }
 `
-*/

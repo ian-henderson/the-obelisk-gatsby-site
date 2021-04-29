@@ -39,17 +39,18 @@ module.exports = {
     },
   },
   plugins: [
-    {
-      resolve: `gatsby-source-contentful`,
-      options: contentfulConfig,
-    },
+    `gatsby-plugin-image`,
     {
       resolve: `gatsby-plugin-plausible`,
       options: {
         domain: `theobelisk.crypto`,
       },
     },
-    `gatsby-plugin-image`,
+    {
+      resolve: `gatsby-source-contentful`,
+      options: contentfulConfig,
+    },
+    /*
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -57,6 +58,7 @@ module.exports = {
         name: `blog`,
       },
     },
+    */
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -64,6 +66,7 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-transformer-remark`,
       options: {
@@ -150,7 +153,7 @@ module.exports = {
         short_name: `The Obelisk`,
         start_url: `/`,
         background_color: `#ffffff`,
-        theme_color: `#ffa7c4`,
+        theme_color: `#181a1b`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },

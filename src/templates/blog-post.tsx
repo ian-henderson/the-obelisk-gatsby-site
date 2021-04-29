@@ -1,6 +1,8 @@
 import React from "react"
 import { graphql, Link, PageProps } from "gatsby"
-import { Bio, Layout, SEO } from "../components"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import styled from "styled-components"
+import { Bio, BlogInfo, Layout, SEO } from "../components"
 import { BlogPost as BlogPostType, Site } from "../types"
 
 type DataProps = {
@@ -20,15 +22,27 @@ export default function BlogPost({
         description={post?.description?.internal?.content}
         title={post?.title}
       />
-      <article
-        className="blog-post"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
+      <article itemScope itemType="http://schema.org/Article">
         <header>
           <h1 itemProp="headline">{post?.title}</h1>
-          <p>{post?.publishDate}</p>
+          <Description
+            dangerouslySetInnerHTML={{
+              __html: post?.description?.childMarkdownRemark?.html,
+            }}
+          />
+          <hr />
+          <BlogInfo
+            authorImage={post?.author?.image}
+            authorName={post?.author?.name}
+            publishDate={post?.publishDate}
+          />
         </header>
+        <HeroImage
+          alt={post?.heroImage?.description || "hero image"}
+          image={getImage(post?.heroImage?.gatsbyImageData)}
+          layout="fixed"
+          quality={100}
+        />
         <section
           dangerouslySetInnerHTML={{
             __html: post?.body?.childMarkdownRemark?.html,
@@ -40,16 +54,8 @@ export default function BlogPost({
           <Bio author={post?.author} />
         </footer>
       </article>
-      <nav className="blog-post-nav">
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
+      <BlogPostNav>
+        <ul>
           <li>
             {previous && (
               <Link
@@ -60,7 +66,7 @@ export default function BlogPost({
               </Link>
             )}
           </li>
-          <li>
+          <li style={{ textAlign: "right" }}>
             {next && (
               <Link to={`/${next.author?.slug}/${next.slug}`} rel="next">
                 {next.title} →
@@ -68,7 +74,7 @@ export default function BlogPost({
             )}
           </li>
         </ul>
-      </nav>
+      </BlogPostNav>
     </Layout>
   )
 }
@@ -82,13 +88,13 @@ export const pageQuery = graphql`
     contentfulBlogPost(id: { eq: $id }) {
       author {
         image {
-          gatsbyImageData
+          gatsbyImageData(placeholder: BLURRED, width: 40)
         }
         name
-        title
         shortBio {
           shortBio
         }
+        title
       }
       body {
         childMarkdownRemark {
@@ -104,9 +110,8 @@ export const pageQuery = graphql`
         }
       }
       heroImage {
-        fluid(maxWidth: 1180, background: "rgb:000000") {
-          ...GatsbyContentfulFluid_tracedSVG
-        }
+        description
+        gatsbyImageData
       }
       publishDate(formatString: "MMMM Do, YYYY")
       title
@@ -130,5 +135,25 @@ export const pageQuery = graphql`
         title
       }
     }
+  }
+`
+
+const Description = styled.p`
+  p {
+    font-size: var(--fontSize-2);
+    margin: var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);
+  }
+`
+
+const HeroImage = styled(GatsbyImage)``
+
+const BlogPostNav = styled.nav`
+  ul {
+    display: flex;
+    flexwrap: wrap;
+    justify-content: space-between;
+    list-style: none;
+    margin: var(--spacing-0);
+    padding: 0;
   }
 `

@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql, Link, PageProps } from "gatsby"
+import styled from "styled-components"
 import { Layout, SEO } from "../components"
 import { BlogPost, Site } from "../types"
 
@@ -37,11 +38,7 @@ export default function Index({
   }: IRenderPost) {
     return (
       <li key={slug}>
-        <article
-          className="post-list-item"
-          itemScope
-          itemType="http://schema.org/Article"
-        >
+        <PostListItem itemScope itemType="http://schema.org/Article">
           <header>
             <h2>
               <Link to={`${author?.slug}/${slug}`} itemProp="url">
@@ -53,7 +50,7 @@ export default function Index({
           <section>
             <p>{description?.childMarkdownRemark?.excerpt}</p>
           </section>
-        </article>
+        </PostListItem>
       </li>
     )
   }
@@ -90,5 +87,25 @@ export const pageQuery = graphql`
         title
       }
     }
+  }
+`
+
+const PostListItem = styled.article`
+  margin-bottom: var(--spacing-8);
+  margin-top: var(--spacing-8);
+
+  p {
+    margin-bottom: var(--spacing-0);
+  }
+
+  h2 {
+    font-size: var(--fontSize-4);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-2);
+    margin-top: var(--spacing-0);
+  }
+
+  header {
+    margin-bottom: var(--spacing-4);
   }
 `
