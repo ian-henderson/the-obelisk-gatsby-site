@@ -27,13 +27,13 @@
   --spacing-20: 5rem;
   --spacing-24: 6rem;
   --spacing-32: 8rem;
-  --fontFamily-sans: "Alegreya Sans", system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-    "Noto Color Emoji";
-  --fontFamily-serif: "Alegreya", "Georgia", Cambria, "Times New Roman", Times,
+  --fontFamily-mono: Monaco, "Courier New";
+  --fontFamily-sans: Quicksand, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --fontFamily-serif: Bookman, "Georgia", Cambria, "Times New Roman", Times,
     serif;
-  --font-body: var(--fontFamily-serif);
+  --font-body: var(--fontFamily-sans);
   --font-heading: var(--fontFamily-sans);
   --fontWeight-normal: 400;
   --fontWeight-medium: 500;
@@ -59,7 +59,7 @@
 
 body.light {
   --background-color: white;
-  --color-primary: #005b99;
+  --color-primary: black;
   --color-text: #2e353f;
   --color-text-light: #4f5969;
   --color-heading: #1a202c;
@@ -96,9 +96,21 @@ html {
 
 body {
   font-family: var(--font-body);
-  font-size: var(--fontSize-3);
+  font-size: var(--fontSize-1);
   color: var(--color-text);
   background-color: var(--background-color);
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-family: var(--fontFamily-mono);
+}
+
+body.dark :not(pre) > code[class*="language-"],
+body.dark pre[class*="language-"] {
+  color: var(---color-primary);
+  background: #2b2f33;
+  text-shadow: 0 1px #2b2f33;
 }
 
 footer {
@@ -136,7 +148,7 @@ h6 {
 }
 
 h1 {
-  font-weight: var(--fontWeight-black);
+  font-weight: var(--fontWeight-extrabold);
   font-size: var(--fontSize-6);
   color: var(--color-heading-black);
 }

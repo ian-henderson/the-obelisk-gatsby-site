@@ -1,13 +1,23 @@
 import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { Person } from "../types"
 
 interface IBio {
-  author: {
-    name: string,
-    image: any,
-  };
+  author: Person;
 }
+
+const staticQuery = graphql`
+  query BioQuery {
+    site {
+      siteMetadata {
+        social {
+          twitter
+        }
+      }
+    }
+  }
+`
 
 export default function Bio({ author }: IBio) {
   const {
@@ -16,17 +26,7 @@ export default function Bio({ author }: IBio) {
         social: { twitter },
       },
     },
-  } = useStaticQuery(graphql`
-    query BioQuery {
-      site {
-        siteMetadata {
-          social {
-            twitter
-          }
-        }
-      }
-    }
-  `)
+  } = useStaticQuery(staticQuery)
 
   return (
     <div className="bio">

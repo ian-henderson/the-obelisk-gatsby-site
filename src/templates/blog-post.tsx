@@ -1,7 +1,5 @@
 import React from "react"
 import { graphql, Link, PageProps } from "gatsby"
-
-// prettier-ignore
 import { Bio, Layout, SEO } from "../components"
 import { BlogPost as BlogPostType, Site } from "../types"
 
@@ -81,11 +79,6 @@ export const pageQuery = graphql`
     $nextPostId: String
     $previousPostId: String
   ) {
-    site {
-      siteMetadata {
-        title
-      }
-    }
     contentfulBlogPost(id: { eq: $id }) {
       author {
         image {
@@ -95,13 +88,6 @@ export const pageQuery = graphql`
         title
         shortBio {
           shortBio
-        }
-      }
-      title
-      publishDate(formatString: "MMMM Do, YYYY")
-      heroImage {
-        fluid(maxWidth: 1180, background: "rgb:000000") {
-          ...GatsbyContentfulFluid_tracedSVG
         }
       }
       body {
@@ -117,6 +103,13 @@ export const pageQuery = graphql`
           content
         }
       }
+      heroImage {
+        fluid(maxWidth: 1180, background: "rgb:000000") {
+          ...GatsbyContentfulFluid_tracedSVG
+        }
+      }
+      publishDate(formatString: "MMMM Do, YYYY")
+      title
     }
     next: contentfulBlogPost(id: { eq: $nextPostId }) {
       author {
@@ -131,6 +124,11 @@ export const pageQuery = graphql`
       }
       slug
       title
+    }
+    site {
+      siteMetadata {
+        title
+      }
     }
   }
 `

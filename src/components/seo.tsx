@@ -1,6 +1,6 @@
 import React from "react"
-import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
+import { Helmet } from "react-helmet"
 
 declare const window: any
 
@@ -11,31 +11,33 @@ interface ISEO {
   title?: string
 }
 
-export default function SEO({ description, lang, meta, title }: ISEO) {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-          }
-        }
+const staticQuery = graphql`
+  query {
+    site {
+      siteMetadata {
+        title
+        description
       }
-    `
-  )
+    }
+  }
+`
+
+export default function SEO({ description, lang, meta, title }: ISEO) {
+  const {
+    site: {
+      siteMetadata: {
+        description: metaDescription = description,
+        title: metaTitle = title,
+      },
+    },
+  } = useStaticQuery(staticQuery)
 
   const [theme, setTheme] = React.useState(null)
   React.useEffect(() => setTheme(window.__theme), [setTheme])
 
-  const metaDescription = description || site.siteMetadata.description
-  const defaultTitle = site.siteMetadata?.title
-
   return (
     <Helmet
       htmlAttributes={{ lang }}
-      title={title || defaultTitle}
-      titleTemplate={title ? `%s | ${defaultTitle}` : defaultTitle}
       meta={[
         ...(meta || []),
         {
@@ -71,12 +73,14 @@ export default function SEO({ description, lang, meta, title }: ISEO) {
           content: theme === "light" ? "white" : "#181a1b",
         },
       ]}
+      title={metaTitle}
+      titleTemplate={title ? `%s | ${metaTitle}` : metaTitle}
     />
   )
 }
 
 SEO.defaultProps = {
+  description: ``,
   lang: `en`,
   meta: [],
-  description: ``,
 }

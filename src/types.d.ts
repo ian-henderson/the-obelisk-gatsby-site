@@ -6,11 +6,18 @@ export type BlogPost = {
     }
   }
   description: {
+    childMarkdownRemark: {
+      excerpt: string
+    }
     internal: {
       content: string
     }
   }
+  heroImage: {
+    fluid: any
+  }
   publishDate: string
+  slug: string
   title: string
 }
 
@@ -22,6 +29,7 @@ export type Person = {
   shortBio: {
     shortBio: string
   }
+  slug: string
   title: string
 }
 

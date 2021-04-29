@@ -1,23 +1,24 @@
 import React from "react"
 import { graphql, Link, PageProps } from "gatsby"
-
 import { Layout, SEO } from "../components"
-import { Site } from "../types"
+import { BlogPost, Site } from "../types"
 
 type DataProps = {
   allContentfulBlogPost: {
-    edges: Array<any>
+    edges: Array<{ node: BlogPost }>
   }
   site: Site
 }
 
-export default function Index({ data, location }: PageProps<DataProps>) {
-  console.log({ location })
-
-  const siteTitle = data.site?.siteMetadata?.title || `Title`
-  const siteDescription = data.site?.siteMetadata?.description || `Description`
-  const posts = data.allContentfulBlogPost.edges
-
+export default function Index({
+  data: {
+    allContentfulBlogPost: { edges: posts },
+    site: {
+      siteMetadata: { title: siteTitle = "Title" },
+    },
+  },
+  location,
+}: PageProps<DataProps>) {
   if (posts.length === 0) {
     return (
       <Layout title={siteTitle} {...{ location }}>
@@ -27,15 +28,13 @@ export default function Index({ data, location }: PageProps<DataProps>) {
     )
   }
 
+  interface IRenderPost {
+    node: BlogPost
+  }
+
   function renderPost({
-    node: {
-      author: { slug: authorSlug },
-      description,
-      publishDate,
-      slug,
-      title,
-    },
-  }) {
+    node: { author, description, publishDate, slug, title },
+  }: IRenderPost) {
     return (
       <li key={slug}>
         <article
@@ -45,7 +44,7 @@ export default function Index({ data, location }: PageProps<DataProps>) {
         >
           <header>
             <h2>
-              <Link to={`${authorSlug}/${slug}`} itemProp="url">
+              <Link to={`${author?.slug}/${slug}`} itemProp="url">
                 <span itemProp="headline">{title || "Title"}</span>
               </Link>
             </h2>
@@ -62,7 +61,6 @@ export default function Index({ data, location }: PageProps<DataProps>) {
   return (
     <Layout title={siteTitle} {...{ location }}>
       <SEO />
-      <div className="bio">{siteDescription}</div>
       <ol style={{ listStyle: `none` }}>{posts.map(renderPost)}</ol>
     </Layout>
   )
@@ -70,27 +68,26 @@ export default function Index({ data, location }: PageProps<DataProps>) {
 
 export const pageQuery = graphql`
   query {
-    site {
-      siteMetadata {
-        description
-        title
-      }
-    }
     allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
       edges {
         node {
           author {
             slug
           }
-          title
-          slug
-          publishDate(formatString: "MMMM Do, YYYY")
           description {
             childMarkdownRemark {
               excerpt
             }
           }
+          publishDate(formatString: "MMMM Do, YYYY")
+          slug
+          title
         }
+      }
+    }
+    site {
+      siteMetadata {
+        title
       }
     }
   }
