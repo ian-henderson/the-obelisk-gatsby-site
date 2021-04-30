@@ -1,5 +1,5 @@
+import { graphql, Link, PageRendererProps, useStaticQuery } from "gatsby"
 import React, { FocusEvent } from "react"
-import { Link, PageRendererProps } from "gatsby"
 import styled from "styled-components"
 import moon from "../images/moon.png"
 import sun from "../images/sun.png"
@@ -12,9 +12,22 @@ interface ILayout extends PageRendererProps {
   title: string;
 }
 
+const staticQuery = graphql`
+  query {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+  }
+`
+
 export default function Layout({ children, location, title }: ILayout) {
-  const rootPath = `${__PATH_PREFIX__}/`
-  const isRootPath = location.pathname === rootPath
+  const {
+    site: {
+      siteMetadata: { title: siteTitle },
+    },
+  } = useStaticQuery(staticQuery)
 
   const [theme, setTheme] = React.useState(null)
   React.useEffect(() => {
@@ -22,19 +35,22 @@ export default function Layout({ children, location, title }: ILayout) {
     window.__onThemeChange = () => setTheme(window.__theme)
   }, [setTheme])
 
+  const rootPath = `${__PATH_PREFIX__}/`
+  const isRootPath = location.pathname === rootPath
+
   function renderHeader() {
     if (isRootPath) {
       return (
         <MainHeading>
           <Link style={{ display: "flex", flexDirection: "row" }} to="/">
             <Logo alt="The Obelisk Logo" height="52" src={logo} />
-            {title}
+            {title || siteTitle}
           </Link>
         </MainHeading>
       )
     }
 
-    return <HeaderLinkHome to="/">{title}</HeaderLinkHome>
+    return <HeaderLinkHome to="/">{title || siteTitle}</HeaderLinkHome>
   }
 
   function renderToggle() {

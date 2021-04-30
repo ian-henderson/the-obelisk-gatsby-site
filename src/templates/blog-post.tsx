@@ -3,21 +3,20 @@ import { graphql, Link, PageProps } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import styled from "styled-components"
 import { Bio, BlogInfo, Layout, SEO } from "../components"
-import { BlogPost as BlogPostType, Site } from "../types"
+import { BlogPost as BlogPostType } from "../types"
 
 type DataProps = {
   contentfulBlogPost: BlogPostType,
   next: BlogPostType,
   previous: BlogPostType,
-  site: Site,
 }
 
 export default function BlogPost({
-  data: { contentfulBlogPost: post, next, previous, site },
+  data: { contentfulBlogPost: post, next, previous },
   location,
 }: PageProps<DataProps>) {
   return (
-    <Layout title={site?.siteMetadata?.title} {...{ location }}>
+    <Layout {...{ location }}>
       <SEO
         description={post?.description?.internal?.content}
         title={post?.title}
@@ -34,6 +33,7 @@ export default function BlogPost({
           <BlogInfo
             authorImage={post?.author?.image}
             authorName={post?.author?.name}
+            authorSlug={post?.author?.slug}
             publishDate={post?.publishDate}
           />
         </header>
@@ -94,6 +94,7 @@ export const pageQuery = graphql`
         shortBio {
           shortBio
         }
+        slug
         title
       }
       body {
@@ -129,11 +130,6 @@ export const pageQuery = graphql`
       }
       slug
       title
-    }
-    site {
-      siteMetadata {
-        title
-      }
     }
   }
 `

@@ -1,5 +1,5 @@
-import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import React from "react"
 import { Helmet } from "react-helmet"
 
 interface ISEO {
@@ -13,8 +13,8 @@ const staticQuery = graphql`
   query {
     site {
       siteMetadata {
-        title
         description
+        title
       }
     }
   }
@@ -40,7 +40,7 @@ export default function SEO({ description, lang, title, ...props }: ISEO) {
     },
     {
       property: `og:title`,
-      content: title,
+      content: title || siteTitle,
     },
     {
       property: `og:description`,
@@ -56,7 +56,7 @@ export default function SEO({ description, lang, title, ...props }: ISEO) {
     },
     {
       name: `twitter:title`,
-      content: title,
+      content: title || siteTitle,
     },
     {
       name: `twitter:description`,

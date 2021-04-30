@@ -1,9 +1,11 @@
+import { Link } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import React from "react"
 import styled from "styled-components"
 
 interface IBlogInfo {
   authorName: string;
+  authorSlug: string;
   image: any;
   publishDate: string;
 }
@@ -11,18 +13,24 @@ interface IBlogInfo {
 export default function BlogInfo({
   authorImage,
   authorName,
+  authorSlug,
   publishDate,
 }: IBlogInfo) {
+  const authorUrl = `/${authorSlug}`
   return (
     <Container>
-      <Image
-        alt={`${authorName} profile image`}
-        image={getImage(authorImage)}
-        layout="fixed"
-        quality={100}
-      />
+      <A to={authorUrl}>
+        <Image
+          alt={`${authorName} profile image`}
+          image={getImage(authorImage)}
+          layout="fixed"
+          quality={100}
+        />
+      </A>
       <Column>
-        <p>{authorName}</p>
+        <p>
+          <A to={authorUrl}>{authorName}</A>
+        </p>
         <p>{publishDate}</p>
       </Column>
     </Container>
@@ -51,4 +59,8 @@ const Image = styled(GatsbyImage)`
   height: 40px;
   margin-right: var(--spacing-4);
   width: 40px;
+`
+
+const A = styled(Link)`
+  text-decoration: none;
 `

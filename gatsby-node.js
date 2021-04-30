@@ -2,7 +2,7 @@ const path = require("path")
 
 exports.createPages = ({ graphql, actions: { createPage } }) => {
   const createAuthorPages = new Promise((resolve, reject) => {
-    const component = path.resolve("./src/templates/author-posts.tsx")
+    const component = path.resolve("./src/templates/author-page.tsx")
 
     const query = `
       query AllPersons {
