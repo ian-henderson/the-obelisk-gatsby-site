@@ -50,9 +50,7 @@ export default function BlogPost({
           itemProp="articleBody"
         />
         <hr />
-        <footer>
-          <Bio author={post?.author} />
-        </footer>
+        <footer></footer>
       </article>
       <BlogPostNav>
         <ul>
@@ -91,11 +89,7 @@ export const pageQuery = graphql`
           gatsbyImageData(placeholder: BLURRED, width: 40)
         }
         name
-        shortBio {
-          shortBio
-        }
         slug
-        title
       }
       body {
         childMarkdownRemark {

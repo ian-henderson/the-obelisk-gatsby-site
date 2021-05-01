@@ -55,7 +55,9 @@ const Column = styled.div`
 `
 
 const Image = styled(GatsbyImage)`
-  border-radius: 100%;
+  img {
+    border-radius: 100%;
+  }
   height: 40px;
   margin-right: var(--spacing-4);
   width: 40px;

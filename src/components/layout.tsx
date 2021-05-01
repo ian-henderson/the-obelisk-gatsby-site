@@ -117,7 +117,7 @@ const Logo = styled.img`
   min-width: 50px;
   filter: var(--logo-color);
 
-  @media (max-width: 42rem) {
+  @media (max-width: 22rem) {
     display: none;
   }
 `

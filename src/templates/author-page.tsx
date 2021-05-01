@@ -83,7 +83,9 @@ const Subheader = styled.p`
 `
 
 const Image = styled(GatsbyImage)`
-  border-radius: 100%;
+  img {
+    border-radius: 100%;
+  }
   height: 8rem;
   width: 8rem;
   margin-bottom: var(--spacing-6);
