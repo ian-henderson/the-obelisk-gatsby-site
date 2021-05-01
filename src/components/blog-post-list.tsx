@@ -11,7 +11,7 @@ interface IBlogPostList {
 export default function BlogPostList({
   posts = [],
   showAuthorInfo,
-}: IBlogPostList) {
+}: IBlogPostList): JSX.Element {
   interface IRenderBlogPost {
     node: BlogPost;
   }

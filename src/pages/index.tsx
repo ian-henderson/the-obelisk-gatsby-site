@@ -14,7 +14,7 @@ export default function Index({
     allContentfulBlogPost: { edges: posts },
   },
   location,
-}: PageProps<DataProps>) {
+}: PageProps<DataProps>): JSX.Element {
   if (posts.length === 0) {
     return (
       <Layout {...{ location }}>

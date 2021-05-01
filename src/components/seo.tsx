@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet"
 interface ISEO {
   description?: string;
   lang?: string;
-  meta?: Array<Object>;
+  meta?: Array<Record<string, string>>;
   title?: string;
 }
 
@@ -20,7 +20,12 @@ const staticQuery = graphql`
   }
 `
 
-export default function SEO({ description, lang, title, ...props }: ISEO) {
+export default function SEO({
+  description,
+  lang,
+  title,
+  ...props
+}: ISEO): JSX.Element {
   const {
     site: {
       siteMetadata: {

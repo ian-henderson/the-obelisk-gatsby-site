@@ -6,7 +6,7 @@ import styled from "styled-components"
 interface IBlogInfo {
   authorName: string;
   authorSlug: string;
-  image: any;
+  image: unknown;
   publishDate: string;
 }
 
@@ -15,7 +15,7 @@ export default function BlogInfo({
   authorName,
   authorSlug,
   publishDate,
-}: IBlogInfo) {
+}: IBlogInfo): JSX.Element {
   const authorUrl = `/${authorSlug}`
   return (
     <Container>

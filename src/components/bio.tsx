@@ -1,6 +1,6 @@
-import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import React from "react"
 import styled from "styled-components"
 import { Person } from "../types"
 
@@ -20,7 +20,7 @@ const staticQuery = graphql`
   }
 `
 
-export default function Bio({ author }: IBio) {
+export default function Bio({ author }: IBio): JSX.Element {
   const {
     site: {
       siteMetadata: {

@@ -22,7 +22,11 @@ const staticQuery = graphql`
   }
 `
 
-export default function Layout({ children, location, title }: ILayout) {
+export default function Layout({
+  children,
+  location,
+  title,
+}: ILayout): JSX.Element {
   const {
     site: {
       siteMetadata: { title: siteTitle },

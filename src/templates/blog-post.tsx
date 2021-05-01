@@ -2,7 +2,7 @@ import React from "react"
 import { graphql, Link, PageProps } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import styled from "styled-components"
-import { Bio, BlogInfo, Layout, SEO } from "../components"
+import { BlogInfo, Layout, SEO } from "../components"
 import { BlogPost as BlogPostType } from "../types"
 
 type DataProps = {
@@ -18,7 +18,7 @@ export default function BlogPost({
     previousPost,
   },
   location,
-}: PageProps<DataProps>) {
+}: PageProps<DataProps>): JSX.Element {
   return (
     <Layout {...{ location }}>
       <SEO description={description?.internal?.content} {...{ title }} />

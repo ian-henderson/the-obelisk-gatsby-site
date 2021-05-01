@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path")
 
 exports.createPages = ({ graphql, actions: { createPage } }) => {
@@ -24,7 +25,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
 
       const persons = result.data.allContentfulPerson.edges
 
-      persons.forEach(({ node: { slug } }, i) => {
+      persons.forEach(({ node: { slug } }) => {
         createPage({
           component,
           context: { slug },

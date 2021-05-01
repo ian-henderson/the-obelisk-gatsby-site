@@ -4,25 +4,27 @@ import "./toggle.css"
 type IconType = "checked" | "unchecked"
 
 interface IToggle extends HTMLInputElement {
-  icons: Record<IconType, HTMLElement>
-  onBlur?: (e: FocusEvent<HTMLInputElement>) => void
-  onFocus?: (e: FocusEvent<HTMLInputElement>) => void
+  icons: Record<IconType, HTMLElement>;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function Toggle({ className, icons, ...inputProps }: IToggle) {
-  const inputRef = useRef<HTMLInputElement>()
+export default function Toggle({
+  className, icons, ...inputProps
+}: IToggle): JSX.Element {
+  const inputRef = useRef()
   function ref(r: HTMLInputElement) {
     inputRef.current = r
   }
-  const [checked, setChecked] = useState<Boolean>(
+  const [checked, setChecked] = useState<boolean>(
     Boolean(inputProps.checked || inputProps.defaultChecked)
   )
-  const [hasFocus, setHasFocus] = useState<Boolean>(false)
-  const [hadFocusAtTouchStart, setHadFocusAtTouchStart] = useState<Boolean>()
-  const [previouslyChecked, setPreviouslyChecked] = useState<Boolean>()
-  const [startX, setStartX] = useState<Number | null>()
-  const [touchMoved, setTouchMoved] = useState<Boolean>()
-  const [touchStarted, setTouchStarted] = useState<Boolean>()
+  const [hasFocus, setHasFocus] = useState<boolean>(false)
+  const [hadFocusAtTouchStart, setHadFocusAtTouchStart] = useState()
+  const [previouslyChecked, setPreviouslyChecked] = useState()
+  const [startX, setStartX] = useState()
+  const [touchMoved, setTouchMoved] = useState()
+  const [touchStarted, setTouchStarted] = useState()
 
   const classes =
     "react-toggle" +
@@ -31,8 +33,8 @@ export default function Toggle({ className, icons, ...inputProps }: IToggle) {
     (inputProps.disabled ? " react-toggle--disabled" : "") +
     (className ? " " + className : "")
 
-  function getIcon(type: String) {
-    return icons?.[type as IconType]
+  function getIcon(type: IconType) {
+    return icons?.[type]
   }
 
   function onClick(event: MouseEvent<HTMLDivElement>) {
@@ -112,7 +114,6 @@ export default function Toggle({ className, icons, ...inputProps }: IToggle) {
   }
 
   return (
-    // @ts-ignore
     <div
       className={classes}
       {...{ onClick, onTouchCancel, onTouchEnd, onTouchMove, onTouchStart }}
@@ -122,7 +123,6 @@ export default function Toggle({ className, icons, ...inputProps }: IToggle) {
         <div className="react-toggle-track-x">{getIcon("unchecked")}</div>
       </div>
       <div className="react-toggle-thumb" />
-      {/* @ts-ignore */}
       <input
         {...inputProps}
         aria-label="Switch between Dark and Light mode"
@@ -139,11 +139,11 @@ export default function Toggle({ className, icons, ...inputProps }: IToggle) {
 // coordinates for either mouse click or touch depending on event
 function pointerCoord(event: unknown) {
   if (!event) return { x: 0, y: 0 }
-  const { changedTouches } = event as TouchEvent
+  const { changedTouches } = event
   if (changedTouches?.length) {
     const { clientX: x, clientY: y } = changedTouches[0]
     return { x, y }
   }
-  const { pageX: x, pageY: y } = event as MouseEvent<HTMLDivElement>
+  const { pageX: x, pageY: y } = event
   return { x, y }
 }

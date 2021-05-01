@@ -3,7 +3,7 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import React from "react"
 import styled from "styled-components"
 // prettier-ignore
-import { Bio, BlogPostList, Layout, SEO } from "../components"
+import { BlogPostList, Layout, SEO } from "../components"
 import { BlogPost } from "../types"
 
 type DataProps = {
@@ -22,7 +22,7 @@ export default function AuthorPage({
     },
   },
   location,
-}: PageProps<DataProps>) {
+}: PageProps<DataProps>): JSX.Element {
   return (
     <Layout {...{ location }}>
       <SEO description={shortBio} title={name} />

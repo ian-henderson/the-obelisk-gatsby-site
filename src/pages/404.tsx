@@ -1,10 +1,17 @@
-import * as React from "react"
-import { graphql } from "gatsby"
-
+import { graphql, PageProps } from "gatsby"
+import React from "react"
 // prettier-ignore
 import { Layout, SEO } from "../components"
+import { Site } from "../types"
 
-export default function NotFoundPage({ data, location }) {
+type DataProps = {
+  site: Site,
+}
+
+export default function NotFoundPage({
+  data,
+  location,
+}: PageProps<DataProps>): JSX.Element {
   const siteTitle = data.site.siteMetadata.title
 
   return (

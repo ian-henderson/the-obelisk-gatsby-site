@@ -14,6 +14,7 @@ export type BlogPost = {
     }
   }
   heroImage: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fluid: any
   }
   publishDate: string
@@ -23,6 +24,7 @@ export type BlogPost = {
 
 export type Person = {
   image: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     gatsbyImageData: any
   }
   name: string
