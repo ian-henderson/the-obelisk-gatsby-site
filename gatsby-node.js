@@ -72,7 +72,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
             nextPostId: i === posts.length - 1 ? null : posts[i + 1].node.id,
             previousPostId: i === 0 ? null : posts[i - 1].node.id,
           },
-          path: `/${author?.slug}/${slug}`,
+          path: `/${author.slug}/${slug}`,
         })
       })
     }

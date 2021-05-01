@@ -43,7 +43,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-plausible`,
       options: {
-        domain: `theobelisk.crypto`,
+        domain: `theobelisk.co`,
       },
     },
     {
