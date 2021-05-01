@@ -6,68 +6,70 @@ import { Bio, BlogInfo, Layout, SEO } from "../components"
 import { BlogPost as BlogPostType } from "../types"
 
 type DataProps = {
-  contentfulBlogPost: BlogPostType,
-  next: BlogPostType,
-  previous: BlogPostType,
+  post: BlogPostType,
+  nextPost: BlogPostType,
+  previousPost: BlogPostType,
 }
 
 export default function BlogPost({
-  data: { contentfulBlogPost: post, next, previous },
+  data: {
+    post: { author, body, description, heroImage, publishDate, title },
+    nextPost,
+    previousPost,
+  },
   location,
 }: PageProps<DataProps>) {
   return (
     <Layout {...{ location }}>
-      <SEO
-        description={post?.description?.internal?.content}
-        title={post?.title}
-      />
+      <SEO description={description?.internal?.content} {...{ title }} />
       <article itemScope itemType="http://schema.org/Article">
         <header>
-          <h1 itemProp="headline">{post?.title}</h1>
+          <h1 itemProp="headline">{title}</h1>
           <Description
             dangerouslySetInnerHTML={{
-              __html: post?.description?.childMarkdownRemark?.html,
+              __html: description?.childMarkdownRemark?.html,
             }}
           />
-          <hr />
           <BlogInfo
-            authorImage={post?.author?.image}
-            authorName={post?.author?.name}
-            authorSlug={post?.author?.slug}
-            publishDate={post?.publishDate}
+            authorImage={author?.image}
+            authorName={author?.name}
+            authorSlug={author?.slug}
+            publishDate={publishDate}
           />
         </header>
         <HeroImage
-          alt={post?.heroImage?.description || "hero image"}
-          image={getImage(post?.heroImage?.gatsbyImageData)}
+          alt={heroImage?.description || "hero image"}
+          image={getImage(heroImage?.gatsbyImageData)}
           layout="fixed"
           quality={100}
         />
         <section
           dangerouslySetInnerHTML={{
-            __html: post?.body?.childMarkdownRemark?.html,
+            __html: body?.childMarkdownRemark?.html,
           }}
           itemProp="articleBody"
         />
-        <hr />
         <footer></footer>
       </article>
       <BlogPostNav>
         <ul>
           <li>
-            {previous && (
+            {previousPost && (
               <Link
-                to={`/${previous.author?.slug}/${previous.slug}`}
+                to={`/${previousPost.author?.slug}/${previousPost.slug}`}
                 rel="prev"
               >
-                ← {previous.title}
+                ← {previousPost.title}
               </Link>
             )}
           </li>
           <li style={{ textAlign: "right" }}>
-            {next && (
-              <Link to={`/${next.author?.slug}/${next.slug}`} rel="next">
-                {next.title} →
+            {nextPost && (
+              <Link
+                to={`/${nextPost.author?.slug}/${nextPost.slug}`}
+                rel="next"
+              >
+                {nextPost.title} →
               </Link>
             )}
           </li>
@@ -83,7 +85,7 @@ export const pageQuery = graphql`
     $nextPostId: String
     $previousPostId: String
   ) {
-    contentfulBlogPost(id: { eq: $id }) {
+    post: contentfulBlogPost(id: { eq: $id }) {
       author {
         image {
           gatsbyImageData(placeholder: BLURRED, width: 40)
@@ -111,14 +113,14 @@ export const pageQuery = graphql`
       publishDate(formatString: "MMMM Do, YYYY")
       title
     }
-    next: contentfulBlogPost(id: { eq: $nextPostId }) {
+    nextPost: contentfulBlogPost(id: { eq: $nextPostId }) {
       author {
         slug
       }
       slug
       title
     }
-    previous: contentfulBlogPost(id: { eq: $previousPostId }) {
+    previousPost: contentfulBlogPost(id: { eq: $previousPostId }) {
       author {
         slug
       }

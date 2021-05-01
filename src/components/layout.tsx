@@ -1,5 +1,5 @@
 import { graphql, Link, PageRendererProps, useStaticQuery } from "gatsby"
-import React, { FocusEvent } from "react"
+import React, { FocusEvent, ReactNode, useEffect, useState } from "react"
 import styled from "styled-components"
 import moon from "../images/moon.png"
 import sun from "../images/sun.png"
@@ -8,7 +8,7 @@ import GlobalStyle from "./global-style"
 import Toggle from "./toggle"
 
 interface ILayout extends PageRendererProps {
-  children: React.ReactNode;
+  children: ReactNode;
   title: string;
 }
 
@@ -29,8 +29,8 @@ export default function Layout({ children, location, title }: ILayout) {
     },
   } = useStaticQuery(staticQuery)
 
-  const [theme, setTheme] = React.useState(null)
-  React.useEffect(() => {
+  const [theme, setTheme] = useState(null)
+  useEffect(() => {
     setTheme(window.__theme)
     window.__onThemeChange = () => setTheme(window.__theme)
   }, [setTheme])
@@ -65,7 +65,6 @@ export default function Layout({ children, location, title }: ILayout) {
       window.__setPreferredTheme(event.target.checked ? "dark" : "light")
     }
 
-    // @ts-ignore
     return <Toggle checked={theme === "dark"} {...{ icons, onChange }} />
   }
 

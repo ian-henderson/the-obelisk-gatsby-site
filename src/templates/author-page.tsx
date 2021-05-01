@@ -14,12 +14,12 @@ type DataProps = {
 
 export default function AuthorPage({
   data: {
+    allContentfulBlogPost: { edges: posts },
     author: {
       image,
       name,
       shortBio: { shortBio },
     },
-    allContentfulBlogPost: { edges: posts },
   },
   location,
 }: PageProps<DataProps>) {
@@ -34,7 +34,7 @@ export default function AuthorPage({
             quality={100}
           />
           <H1>{name}</H1>
-          <Subheader>{shortBio}</Subheader>
+          <Subtitle>{shortBio}</Subtitle>
         </Header>
         <BlogPostList {...{ posts }} />
       </article>
@@ -77,7 +77,7 @@ const H1 = styled.h1`
   margin-bottom: var(--spacing-4);
 `
 
-const Subheader = styled.p`
+const Subtitle = styled.p`
   font-size: var(--fontSize-2);
   margin-bottom: var(--spacing-4);
 `
