@@ -12,40 +12,39 @@ type DataProps = {
 }
 
 export default function BlogPost({
-  data: {
-    post: { author, body, description, heroImage, publishDate, title },
-    nextPost,
-    previousPost,
-  },
+  data: { post, nextPost, previousPost },
   location,
 }: PageProps<DataProps>): JSX.Element {
   return (
     <Layout {...{ location }}>
-      <SEO description={description?.internal?.content} {...{ title }} />
+      <SEO
+        description={post?.description?.internal?.content}
+        title={post?.title}
+      />
       <article itemScope itemType="http://schema.org/Article">
         <header>
-          <h1 itemProp="headline">{title}</h1>
+          <h1 itemProp="headline">{post?.title}</h1>
           <Description
             dangerouslySetInnerHTML={{
-              __html: description?.childMarkdownRemark?.html,
+              __html: post?.description?.childMarkdownRemark?.html,
             }}
           />
           <BlogInfo
-            authorImage={author?.image}
-            authorName={author?.name}
-            authorSlug={author?.slug}
-            publishDate={publishDate}
+            authorImage={post?.author?.image}
+            authorName={post?.author?.name}
+            authorSlug={post?.author?.slug}
+            publishDate={post?.publishDate}
           />
         </header>
         <HeroImage
-          alt={heroImage?.description || "hero image"}
-          image={getImage(heroImage?.gatsbyImageData)}
+          alt={post?.heroImage?.description || "hero image"}
+          image={getImage(post?.heroImage?.gatsbyImageData)}
           layout="fixed"
           quality={100}
         />
         <section
           dangerouslySetInnerHTML={{
-            __html: body?.childMarkdownRemark?.html,
+            __html: post?.body?.childMarkdownRemark?.html,
           }}
           itemProp="articleBody"
         />
