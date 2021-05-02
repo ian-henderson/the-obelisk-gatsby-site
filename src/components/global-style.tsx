@@ -28,7 +28,7 @@ export default createGlobalStyle`
     --spacing-20: 5rem;
     --spacing-24: 6rem;
     --spacing-32: 8rem;
-    --fontFamily-mono: "Anonymous Pro", monospace;
+    --fontFamily-mono: Courier, monospace;
     --fontFamily-sans: "Alegreya Sans", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

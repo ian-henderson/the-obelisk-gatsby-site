@@ -7,4 +7,3 @@ import "prismjs/themes/prism.css"
 // custom typefaces
 import "typeface-alegreya"
 import "typeface-alegreya-sans"
-import "typeface-anonymous-pro"
