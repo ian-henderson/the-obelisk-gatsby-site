@@ -33,11 +33,13 @@ if (!spaceId || !accessToken) {
 module.exports = {
   siteMetadata: {
     title: `The Obelisk`,
-    description: `Tag line`,
-    siteUrl: `https://theobelisk.crypto`,
+    description: `Description`,
+    siteUrl: `https://theobelisk.co`,
     social: {
       twitter: ``,
     },
+    bitcoinAddress: `bc1qls59wpcmlgjelnawyxmt80l3zz2uhpmnq0ses5`,
+    buyMeACoffeeUsername: `iancurtis`,
   },
   plugins: [
     `gatsby-plugin-image`,

@@ -29,13 +29,13 @@ export default function BlogPostList({
               </Link>
             </h2>
             <p>
-              {publishDate}
               {showAuthorInfo && (
                 <>
-                  <span style={{ margin: "auto 0.25rem" }}>•</span>
                   <A to={`/${author?.slug}`}>{author?.name}</A>
+                  <span style={{ margin: "auto 0.25rem" }}>•</span>
                 </>
               )}
+              {publishDate}
             </p>
           </header>
           <section>
@@ -87,5 +87,9 @@ const ListItem = styled.article`
 `
 
 const A = styled(Link)`
+  font-weight: var(--fontWeight-semibold);
   text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `

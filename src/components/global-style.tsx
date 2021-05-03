@@ -28,14 +28,15 @@ export default createGlobalStyle`
     --spacing-20: 5rem;
     --spacing-24: 6rem;
     --spacing-32: 8rem;
-    --fontFamily-mono: Courier, monospace;
-    --fontFamily-sans: "Alegreya Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    --fontFamily-display: Vollkorn, Courier, monospace;
+    --fontFamily-mono: Consolas, Courier, monospace;
+    --fontFamily-sans: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --fontFamily-serif: Alegreya, "Georgia", Cambria, "Times New Roman", Times,
+    --fontFamily-serif: Georgia, Cambria, "Times New Roman", Times,
     serif;
     --font-body: var(--fontFamily-sans);
-    --font-heading: var(--fontFamily-serif);
+    --font-heading: var(--fontFamily-display);
     --fontWeight-normal: 400;
     --fontWeight-medium: 500;
     --fontWeight-semibold: 600;
@@ -102,6 +103,10 @@ export default createGlobalStyle`
     background-color: var(--background-color);
   }
 
+  code, pre {
+    font-family: var(--fontFamily-mono);
+  }
+
   code[class*="language-"],
     pre[class*="language-"] {
       font-family: var(--fontFamily-mono);
@@ -140,20 +145,20 @@ export default createGlobalStyle`
       letter-spacing: -0.025em;
     }
 
+  h1 {
+    font-weight: var(--fontWeight-bold);
+    font-size: var(--fontSize-6);
+    color: var(--color-heading-black);
+  }
+
   h2,
     h3,
     h4,
     h5,
     h6 {
-      font-weight: var(--fontWeight-bold);
+      font-weight: var(--fontWeight-semibold);
       color: var(--color-heading);
     }
-
-  h1 {
-    font-weight: var(--fontWeight-extrabold);
-    font-size: var(--fontSize-6);
-    color: var(--color-heading-black);
-  }
 
   h2 {
     font-size: var(--fontSize-5);
@@ -187,9 +192,16 @@ export default createGlobalStyle`
     h6 > a {
       text-decoration: none;
       color: inherit;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
   /* Prose */
+
+  p > a:hover {
+    text-decoration: underline;
+  }
 
   p {
     line-height: var(--lineHeight-relaxed);

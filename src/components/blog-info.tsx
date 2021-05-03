@@ -19,14 +19,14 @@ export default function BlogInfo({
   const authorUrl = `/${authorSlug}`
   return (
     <Container>
-      <A to={authorUrl}>
+      <Link to={authorUrl}>
         <Image
           alt={`${authorName} profile image`}
           image={getImage(authorImage)}
           layout="fixed"
           quality={100}
         />
-      </A>
+      </Link>
       <Column>
         <p>
           <A to={authorUrl}>{authorName}</A>
@@ -44,7 +44,6 @@ const Container = styled.div`
   margin: var(--spacing-8) auto var(--spacing-8);
 
   p {
-    font-family: var(--font-heading);
     margin: inherit;
   }
 `
@@ -64,5 +63,9 @@ const Image = styled(GatsbyImage)`
 `
 
 const A = styled(Link)`
+  font-weight: var(--fontWeight-semibold);
   text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `

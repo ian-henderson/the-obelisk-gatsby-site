@@ -47,7 +47,7 @@ export default function Layout({
       return (
         <MainHeading>
           <Link style={{ display: "flex", flexDirection: "row" }} to="/">
-            <Logo alt="The Obelisk Logo" height="52" src={logo} />
+            <Logo alt="The Obelisk Logo" height="40" src={logo} />
             {title || siteTitle}
           </Link>
         </MainHeading>
@@ -103,7 +103,7 @@ const GlobalHeader = styled.header`
 `
 
 const MainHeading = styled.h1`
-  font-size: var(--fontSize-7);
+  font-size: var(--fontSize-6);
   margin: 0;
 `
 
@@ -120,7 +120,7 @@ const Logo = styled.img`
   min-width: 50px;
   filter: var(--logo-color);
 
-  @media (max-width: 22rem) {
+  @media (max-width: 24rem) {
     display: none;
   }
 `

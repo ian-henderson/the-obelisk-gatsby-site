@@ -37,6 +37,8 @@ export type Person = {
 
 export type Site = {
   siteMetadata: {
+    bitcoinAddress: string
+    buyMeACoffeeUsername: string
     description: string
     siteUrl: string
     social: {

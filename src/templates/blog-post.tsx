@@ -54,22 +54,19 @@ export default function BlogPost({
         <ul>
           <li>
             {previousPost && (
-              <Link
+              <A
                 to={`/${previousPost.author?.slug}/${previousPost.slug}`}
                 rel="prev"
               >
                 ← {previousPost.title}
-              </Link>
+              </A>
             )}
           </li>
           <li style={{ textAlign: "right" }}>
             {nextPost && (
-              <Link
-                to={`/${nextPost.author?.slug}/${nextPost.slug}`}
-                rel="next"
-              >
+              <A to={`/${nextPost.author?.slug}/${nextPost.slug}`} rel="next">
                 {nextPost.title} →
-              </Link>
+              </A>
             )}
           </li>
         </ul>
@@ -146,5 +143,12 @@ const BlogPostNav = styled.nav`
     list-style: none;
     margin: var(--spacing-0);
     padding: 0;
+  }
+`
+
+const A = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
   }
 `

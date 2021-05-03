@@ -1,6 +1,7 @@
 import { graphql, PageProps } from "gatsby"
 import React from "react"
-import { BlogPostList, Layout, SEO } from "../components"
+import styled from "styled-components"
+import { BlogPostList, CryptoAddress, Layout, SEO } from "../components"
 import { BlogPost } from "../types"
 
 type DataProps = {
@@ -12,22 +13,25 @@ type DataProps = {
 export default function Index({
   data: {
     allContentfulBlogPost: { edges: posts },
+    site: {
+      siteMetadata: { bitcoinAddress },
+    },
   },
   location,
-}: PageProps<DataProps>) {
-  if (posts.length === 0) {
-    return (
-      <Layout {...{ location }}>
-        <SEO />
-        <p>No articles found.</p>
-      </Layout>
-    )
+}: PageProps<DataProps>): JSX.Element {
+  function renderContent() {
+    if (posts.length === 0) return <p>No articles found.</p>
+
+    return <BlogPostList showAuthorInfo {...{ posts }} />
   }
 
   return (
     <Layout {...{ location }}>
       <SEO />
-      <BlogPostList showAuthorInfo {...{ posts }} />
+      {renderContent()}
+      <Container>
+        <CryptoAddress address={bitcoinAddress} label="Bitcoin" />
+      </Container>
     </Layout>
   )
 }
@@ -41,5 +45,14 @@ export const pageQuery = graphql`
         }
       }
     }
+    site {
+      siteMetadata {
+        bitcoinAddress
+      }
+    }
   }
+`
+
+const Container = styled.div`
+  margin-top: 5rem;
 `
