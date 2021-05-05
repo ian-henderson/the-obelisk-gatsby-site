@@ -54,7 +54,7 @@ export default function cryptoAddress({ address, label }: Props): JSX.Element {
         {...copyPopupProps}
         contentStyle={{
           ...contentStyle,
-          backgroundColor: window.__theme === "light" ? "white" : "#181a1b",
+          backgroundColor: "var(--background-color)",
         }}
         trigger={<DesktopSvg alt="QR Code Button" src={qrCodeSvg} width={18} />}
       >
