@@ -119,7 +119,6 @@ const Logo = styled.img`
   margin-bottom: var(--spacing-0);
   min-width: 50px;
   filter: var(--logo-color);
-
   @media (max-width: 24rem) {
     display: none;
   }

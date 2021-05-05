@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: theobelisk.co
+Token: c150a646a3e1c46f26ee5066a930c19ece94becdf6db787b94bcafeb6ff03626
