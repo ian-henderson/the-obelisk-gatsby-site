@@ -8,6 +8,7 @@ module.exports = {
     "prettier",
   ],
   env: {
+    browser: true,
     node: true,
   },
 }

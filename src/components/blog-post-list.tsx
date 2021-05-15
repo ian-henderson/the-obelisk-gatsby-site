@@ -1,23 +1,25 @@
 import { graphql, Link } from "gatsby"
 import React from "react"
 import styled from "styled-components"
-import { BlogPost } from "../types"
+import { ContentfulBlogPost } from "../types"
 
 interface IBlogPostList {
-  posts: Array<{ node: BlogPost }>;
-  showAuthorInfo: boolean;
+  posts: Array<{ node: ContentfulBlogPost }>;
+  showAuthorInfo?: boolean;
+  showPublishDate?: boolean;
 }
 
 export default function BlogPostList({
   posts = [],
   showAuthorInfo,
+  showPublishDate,
 }: IBlogPostList): JSX.Element {
   interface IRenderBlogPost {
-    node: BlogPost;
+    node: ContentfulBlogPost;
   }
 
   function renderBlogPost({
-    node: { author, description, publishDate, slug, title },
+    node: { author, publishDate, slug, title },
   }: IRenderBlogPost) {
     return (
       <li key={slug}>
@@ -30,35 +32,31 @@ export default function BlogPostList({
             </h2>
             <p>
               {showAuthorInfo && (
-                <>
-                  <A to={`/${author?.slug}`}>{author?.name}</A>
-                  <span style={{ margin: "auto 0.25rem" }}>•</span>
-                </>
+                <span>
+                  By <A to={`/${author?.slug}`}>{author?.name}</A>
+                  {showPublishDate && (
+                    <span style={{ margin: "auto 0.25rem" }}>•</span>
+                  )}
+                </span>
               )}
-              {publishDate}
+              {showPublishDate && publishDate}
             </p>
           </header>
-          <section>
-            <p>{description?.childMarkdownRemark?.excerpt}</p>
-          </section>
         </ListItem>
       </li>
     )
   }
 
+  //
+
   return <ol style={{ listStyle: `none` }}>{posts.map(renderBlogPost)}</ol>
 }
 
-export const query = graphql`
+export const fragment = graphql`
   fragment BlogPostListItem on ContentfulBlogPost {
     author {
       name
       slug
-    }
-    description {
-      childMarkdownRemark {
-        excerpt
-      }
     }
     publishDate(formatString: "MMMM Do, YYYY")
     slug

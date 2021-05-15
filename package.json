@@ -37,8 +37,9 @@
     "react-helmet": "^6.1.0",
     "reactjs-popup": "^2.0.4",
     "styled-components": "^5.2.3",
-    "typeface-open-sans": "^1.1.13",
-    "typeface-vollkorn": "^1.1.13"
+    "typeface-alegreya": "^1.1.13",
+    "typeface-alegreya-sans": "^1.1.13",
+    "typeface-anonymous-pro": "^1.1.13"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.22.0",

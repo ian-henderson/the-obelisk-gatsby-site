@@ -4,12 +4,13 @@ import React from "react"
 import styled from "styled-components"
 // prettier-ignore
 import { BlogPostList, Layout, SEO } from "../components"
-import { BlogPost } from "../types"
+import { ContentfulBlogPost, ContentfulPerson } from "../types"
 
 type DataProps = {
   allContentfulBlogPost: {
-    edges: Array<{ node: BlogPost }>,
+    edges: Array<{ node: ContentfulBlogPost }>,
   },
+  author: ContentfulPerson,
 }
 
 export default function AuthorPage({
@@ -31,12 +32,11 @@ export default function AuthorPage({
           <Image
             alt={`${name} profile picture`}
             image={getImage(image)}
-            quality={100}
           />
           <H1>{name}</H1>
           <Subtitle>{shortBio}</Subtitle>
         </Header>
-        <BlogPostList {...{ posts }} />
+        <BlogPostList showPublishDate {...{ posts }} />
       </article>
     </Layout>
   )

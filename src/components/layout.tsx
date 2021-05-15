@@ -7,40 +7,31 @@ import logo from "../images/obelisk-5.svg"
 import GlobalStyle from "./global-style"
 import Toggle from "./toggle"
 
+declare const __PATH_PREFIX__: string
+declare const __theme: "light" | "dark"
+declare const __setPreferredTheme: (t: string) => void
+declare let __onThemeChange: () => void
+
 interface ILayout extends PageRendererProps {
-  children: ReactNode;
-  title: string;
+  children: ReactNode
 }
 
-const staticQuery = graphql`
-  query {
-    site {
-      siteMetadata {
-        title
-      }
-    }
-  }
-`
-
-export default function Layout({
-  children,
-  location,
-  title,
-}: ILayout): JSX.Element {
+export default function Layout(props: ILayout): JSX.Element {
   const {
     site: {
-      siteMetadata: { title: siteTitle },
+      siteMetadata: { title },
     },
   } = useStaticQuery(staticQuery)
 
   const [theme, setTheme] = useState(null)
   useEffect(() => {
-    setTheme(window.__theme)
-    window.__onThemeChange = () => setTheme(window.__theme)
+    setTheme(__theme)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    __onThemeChange = () => setTheme(__theme)
   }, [setTheme])
 
   const rootPath = `${__PATH_PREFIX__}/`
-  const isRootPath = location.pathname === rootPath
+  const isRootPath = props.location.pathname === rootPath
 
   function renderHeader() {
     if (isRootPath) {
@@ -48,13 +39,13 @@ export default function Layout({
         <MainHeading>
           <Link style={{ display: "flex", flexDirection: "row" }} to="/">
             <Logo alt="The Obelisk Logo" height="40" src={logo} />
-            {title || siteTitle}
+            {title}
           </Link>
         </MainHeading>
       )
     }
 
-    return <HeaderLinkHome to="/">{title || siteTitle}</HeaderLinkHome>
+    return <HeaderLinkHome to="/">{title}</HeaderLinkHome>
   }
 
   function renderToggle() {
@@ -66,7 +57,7 @@ export default function Layout({
     }
 
     function onChange(event: FocusEvent<HTMLInputElement>) {
-      window.__setPreferredTheme(event.target.checked ? "dark" : "light")
+      __setPreferredTheme(event.target.checked ? "dark" : "light")
     }
 
     return <Toggle checked={theme === "dark"} {...{ icons, onChange }} />
@@ -80,12 +71,22 @@ export default function Layout({
           {renderHeader()}
           {renderToggle()}
         </GlobalHeader>
-        <main>{children}</main>
+        <main>{props.children}</main>
         <footer>© {new Date().getFullYear()}</footer>
       </GlobalWrapper>
     </>
   )
 }
+
+const staticQuery = graphql`
+  query {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+  }
+`
 
 const GlobalWrapper = styled.div`
   margin: var(--spacing-0) auto;

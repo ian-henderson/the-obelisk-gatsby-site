@@ -23,9 +23,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
         reject(result.errors)
       }
 
-      const persons = result.data.allContentfulPerson.edges
-
-      persons.forEach(({ node: { slug } }) => {
+      result.data.allContentfulPerson.edges.forEach(({ node: { slug } }) => {
         createPage({
           component,
           context: { slug },
@@ -48,9 +46,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
               author {
                 slug
               }
-              id
               slug
-              title
             }
           }
         }
@@ -65,13 +61,14 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
 
       const posts = result.data.allContentfulBlogPost.edges
 
-      posts.forEach(({ node: { author, id, slug } }, i) => {
+      posts.forEach(({ node: { author, slug } }, i) => {
         createPage({
           component,
           context: {
-            id,
-            nextPostId: i === posts.length - 1 ? null : posts[i + 1].node.id,
-            previousPostId: i === 0 ? null : posts[i - 1].node.id,
+            slug,
+            nextPostSlug:
+              i === posts.length - 1 ? null : posts[i + 1].node.slug,
+            previousPostSlug: i === 0 ? null : posts[i - 1].node.slug,
           },
           path: `/${author.slug}/${slug}`,
         })

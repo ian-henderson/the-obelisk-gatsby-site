@@ -1,41 +1,46 @@
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import React from "react"
 import styled from "styled-components"
+import { ContentfulPerson } from "../types.d"
 
 interface IBlogInfo {
-  authorName: string;
-  authorSlug: string;
-  image: unknown;
+  author: ContentfulPerson;
   publishDate: string;
 }
 
-export default function BlogInfo({
-  authorImage,
-  authorName,
-  authorSlug,
-  publishDate,
-}: IBlogInfo): JSX.Element {
-  const authorUrl = `/${authorSlug}`
+export default function BlogInfo(props: IBlogInfo): JSX.Element {
+  const authorUrl = `/${props.author.slug}`
   return (
     <Container>
       <Link to={authorUrl}>
         <Image
-          alt={`${authorName} profile image`}
-          image={getImage(authorImage)}
-          layout="fixed"
-          quality={100}
+          alt={`${props.author.name} profile image`}
+          image={getImage(props.author.image)}
         />
       </Link>
       <Column>
         <p>
-          <A to={authorUrl}>{authorName}</A>
+          <A to={authorUrl}>{props.author.name}</A>
         </p>
-        <p>{publishDate}</p>
+        <p>{props.publishDate}</p>
       </Column>
     </Container>
   )
 }
+
+export const fragment = graphql`
+  fragment BlogInfo on ContentfulBlogPost {
+    author {
+      image {
+        gatsbyImageData(placeholder: BLURRED, width: 40)
+      }
+      name
+      slug
+    }
+    publishDate(formatString: "MMMM Do, YYYY")
+  }
+`
 
 const Container = styled.div`
   align-items: center;

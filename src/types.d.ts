@@ -1,5 +1,5 @@
-export type BlogPost = {
-  author: Person
+export type ContentfulBlogPost = {
+  author: ContentfulPerson
   body: {
     childMarkdownRemark: {
       html: string
@@ -8,25 +8,27 @@ export type BlogPost = {
   description: {
     childMarkdownRemark: {
       excerpt: string
+      html: string
     }
     internal: {
       content: string
     }
   }
   heroImage: {
+    description: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fluid: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    gatsbyImageData: any
   }
   publishDate: string
   slug: string
   title: string
 }
 
-export type Person = {
-  image: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    gatsbyImageData: any
-  }
+export type ContentfulPerson = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  image: any
   name: string
   shortBio: {
     shortBio: string

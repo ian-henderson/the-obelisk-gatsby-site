@@ -1,18 +1,26 @@
-import React, { FocusEvent, MouseEvent, useRef, useState } from "react"
+import React, {
+  FocusEventHandler,
+  InputHTMLAttributes,
+  MouseEvent,
+  useRef,
+  useState,
+} from "react"
 import "./toggle.css"
 
 type IconType = "checked" | "unchecked"
 
-interface IToggle extends HTMLInputElement {
-  icons: Record<IconType, HTMLElement>;
-  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
-  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+interface IToggle extends InputHTMLAttributes<HTMLInputElement> {
+  icons: Record<IconType, JSX.Element>
+  onBlur?: FocusEventHandler<HTMLInputElement>
+  onFocus?: FocusEventHandler<HTMLInputElement>
 }
 
 export default function Toggle({
-  className, icons, ...inputProps
+  className,
+  icons,
+  ...inputProps
 }: IToggle): JSX.Element {
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>()
   function ref(r: HTMLInputElement) {
     inputRef.current = r
   }
@@ -20,11 +28,11 @@ export default function Toggle({
     Boolean(inputProps.checked || inputProps.defaultChecked)
   )
   const [hasFocus, setHasFocus] = useState<boolean>(false)
-  const [hadFocusAtTouchStart, setHadFocusAtTouchStart] = useState()
-  const [previouslyChecked, setPreviouslyChecked] = useState()
-  const [startX, setStartX] = useState()
-  const [touchMoved, setTouchMoved] = useState()
-  const [touchStarted, setTouchStarted] = useState()
+  const [hadFocusAtTouchStart, setHadFocusAtTouchStart] = useState<boolean>()
+  const [previouslyChecked, setPreviouslyChecked] = useState<boolean>()
+  const [startX, setStartX] = useState<number>()
+  const [touchMoved, setTouchMoved] = useState<boolean>()
+  const [touchStarted, setTouchStarted] = useState<boolean>()
 
   const classes =
     "react-toggle" +
@@ -50,14 +58,14 @@ export default function Toggle({
     setChecked(checkbox.checked)
   }
 
-  function onInputBlur(event: FocusEvent<HTMLInputElement>) {
+  function onInputBlur(event) {
     const { onBlur } = inputProps
     if (onBlur) onBlur(event)
     setHadFocusAtTouchStart(false)
     setHasFocus(false)
   }
 
-  function onInputFocus(event: FocusEvent<HTMLInputElement>) {
+  function onInputFocus(event) {
     const { onFocus } = inputProps
     if (onFocus) onFocus(event)
     setHadFocusAtTouchStart(true)
@@ -75,7 +83,7 @@ export default function Toggle({
     }
   }
 
-  function onTouchEnd(event: TouchEvent) {
+  function onTouchEnd(event) {
     if (!touchMoved) return
     const checkbox = inputRef.current
     if (!checkbox) return
@@ -89,24 +97,24 @@ export default function Toggle({
     if (!hadFocusAtTouchStart) setHasFocus(false)
   }
 
-  function onTouchMove(event: TouchEvent) {
+  function onTouchMove(event) {
     if (!touchStarted) return
     setTouchStarted(true)
-    if (startX != null) {
+    if (startX !== null) {
       const currentX = pointerCoord(event).x
-      if (checked && currentX + 15 < startX) {
+      if (checked && currentX + 15 < (startX as number)) {
         setChecked(false)
         setStartX(currentX)
         return
       }
-      if (!checked && currentX - 15 > startX) {
+      if (!checked && currentX - 15 > (startX as number)) {
         setChecked(true)
         setStartX(currentX)
       }
     }
   }
 
-  function onTouchStart(event: TouchEvent) {
+  function onTouchStart(event) {
     setStartX(pointerCoord(event).x)
     setTouchStarted(true)
     setHadFocusAtTouchStart(hasFocus)
@@ -137,7 +145,7 @@ export default function Toggle({
 }
 
 // coordinates for either mouse click or touch depending on event
-function pointerCoord(event: unknown) {
+function pointerCoord(event: TouchEvent & MouseEvent) {
   if (!event) return { x: 0, y: 0 }
   const { changedTouches } = event
   if (changedTouches?.length) {

@@ -2,23 +2,11 @@ import { graphql, useStaticQuery } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import React from "react"
 import styled from "styled-components"
-import { Person } from "../types"
+import { ContentfulPerson } from "../types"
 
 interface IBio {
-  author: Person;
+  author: ContentfulPerson
 }
-
-const staticQuery = graphql`
-  query BioQuery {
-    site {
-      siteMetadata {
-        social {
-          twitter
-        }
-      }
-    }
-  }
-`
 
 export default function Bio({ author }: IBio): JSX.Element {
   const {
@@ -52,6 +40,18 @@ export default function Bio({ author }: IBio): JSX.Element {
     </Container>
   )
 }
+
+const staticQuery = graphql`
+  query BioQuery {
+    site {
+      siteMetadata {
+        social {
+          twitter
+        }
+      }
+    }
+  }
+`
 
 const Container = styled.div`
   display: flex;
