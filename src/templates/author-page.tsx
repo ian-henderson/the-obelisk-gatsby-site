@@ -8,33 +8,29 @@ import { ContentfulBlogPost, ContentfulPerson } from "../types"
 
 type DataProps = {
   allContentfulBlogPost: {
-    edges: Array<{ node: ContentfulBlogPost }>,
-  },
-  author: ContentfulPerson,
+    edges: Array<{ node: ContentfulBlogPost }>
+  }
+  author: ContentfulPerson
 }
 
 export default function AuthorPage({
   data: {
     allContentfulBlogPost: { edges: posts },
-    author: {
-      image,
-      name,
-      shortBio: { shortBio },
-    },
+    author,
   },
   location,
 }: PageProps<DataProps>): JSX.Element {
   return (
     <Layout {...{ location }}>
-      <SEO description={shortBio} title={name} />
+      <SEO description={author?.shortBio?.shortBio} title={author?.name} />
       <article itemScope itemType="http://schema.org/Article">
         <Header itemProp="headline">
           <Image
-            alt={`${name} profile picture`}
-            image={getImage(image)}
+            alt={`${author?.name} profile picture`}
+            image={getImage(author?.image)}
           />
-          <H1>{name}</H1>
-          <Subtitle>{shortBio}</Subtitle>
+          <H1>{author?.name}</H1>
+          <Subtitle>{author?.shortBio?.shortBio}</Subtitle>
         </Header>
         <BlogPostList showPublishDate {...{ posts }} />
       </article>
