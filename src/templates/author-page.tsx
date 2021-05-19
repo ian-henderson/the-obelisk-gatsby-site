@@ -36,7 +36,7 @@ export default function AuthorPage({
         {buyMeACoffeeUsername && (
           <h5>
             <BuyMeACoffeeLink
-              text="With coffee"
+              text="With Coffee"
               username={buyMeACoffeeUsername}
             />
           </h5>

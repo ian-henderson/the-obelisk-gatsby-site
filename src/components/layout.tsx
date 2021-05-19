@@ -30,10 +30,10 @@ export default function Layout(props: ILayout): JSX.Element {
     __onThemeChange = () => setTheme(__theme)
   }, [setTheme])
 
-  function renderHeader() {
-    const rootPath = `${__PATH_PREFIX__}/`
-    const isRootPath = props.location.pathname === rootPath
+  const rootPath = `${__PATH_PREFIX__}/`
+  const isRootPath = props.location.pathname === rootPath
 
+  function renderHeader() {
     if (isRootPath) {
       return (
         <MainHeading>
@@ -67,7 +67,7 @@ export default function Layout(props: ILayout): JSX.Element {
     <>
       <GlobalStyle />
       <GlobalWrapper>
-        <GlobalHeader>
+        <GlobalHeader {...{ isRootPath }}>
           {renderHeader()}
           {renderToggle()}
         </GlobalHeader>
@@ -100,7 +100,9 @@ const GlobalHeader = styled.header`
   flex-direction: row;
   height: 52px;
   justify-content: space-between;
-  margin-bottom: var(--spacing-16);
+  margin-bottom: var(
+    --spacing-${(p: { isRootPath?: boolean }) => (p.isRootPath ? "16" : "12")}
+  );
 `
 
 const MainHeading = styled.h1`
