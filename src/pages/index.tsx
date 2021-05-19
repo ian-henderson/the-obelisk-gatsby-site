@@ -25,9 +25,9 @@ export default function Index({
     <Layout {...{ location }}>
       <SEO />
       <Content />
-      <h5>
+      <strong>
         <Link to="/support">Support this site →</Link>
-      </h5>
+      </strong>
     </Layout>
   )
 }
