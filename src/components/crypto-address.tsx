@@ -69,13 +69,17 @@ export default function CryptoAddress(props: ICryptoAddress): JSX.Element {
   }
 
   function MobileCopyButtonPopup() {
+    function onOpen() {
+      navigator.clipboard.writeText(props.address).then()
+    }
+
     const trigger = (
       <MobileCopyButton>
         Copy {props.name} Address <MobileSvg src={copySvg} width={18} />
       </MobileCopyButton>
     )
 
-    return <Popup {...{ ...copyPopupProps, trigger }}>✓ Copied!</Popup>
+    return <Popup {...{ ...copyPopupProps, onOpen, trigger }}>✓ Copied!</Popup>
   }
 
   return (
