@@ -30,15 +30,15 @@ export default function Layout(props: ILayout): JSX.Element {
     __onThemeChange = () => setTheme(__theme)
   }, [setTheme])
 
-  const rootPath = `${__PATH_PREFIX__}/`
-  const isRootPath = props.location.pathname === rootPath
-
   function renderHeader() {
+    const rootPath = `${__PATH_PREFIX__}/`
+    const isRootPath = props.location.pathname === rootPath
+
     if (isRootPath) {
       return (
         <MainHeading>
           <Link style={{ display: "flex", flexDirection: "row" }} to="/">
-            <Logo alt="The Obelisk Logo" height="40" src={logo} />
+            <Logo alt="The Obelisk Logo" height="45" src={logo} />
             {title}
           </Link>
         </MainHeading>
@@ -100,19 +100,22 @@ const GlobalHeader = styled.header`
   flex-direction: row;
   height: 52px;
   justify-content: space-between;
-  margin-bottom: var(--spacing-12);
+  margin-bottom: var(--spacing-16);
 `
 
 const MainHeading = styled.h1`
   font-size: var(--fontSize-6);
   margin: 0;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
 `
 
 const HeaderLinkHome = styled(Link)`
   font-family: var(--font-heading);
-  font-size: var(--fontSize-4);
+  font-size: var(--fontSize-3);
   font-weight: var(--fontWeight-bold);
-  text-decoration: none;
 `
 
 const Logo = styled.img`

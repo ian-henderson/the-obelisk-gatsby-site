@@ -5,9 +5,8 @@ import "./src/normalize.css"
 import "prismjs/themes/prism.css"
 
 // custom typefaces
-import "typeface-alegreya"
-import "typeface-alegreya-sans"
-import "typeface-anonymous-pro"
+import "typeface-roboto"
+import "typeface-roboto-mono"
 
 // reactjs-popup
 import "reactjs-popup/dist/index.css"

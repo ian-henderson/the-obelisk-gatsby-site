@@ -1,6 +1,7 @@
 export { default as Bio } from "./bio"
 export { default as BlogInfo } from "./blog-info"
 export { default as BlogPostList } from "./blog-post-list"
+export { default as BuyMeACoffeeLink } from "./buy-me-a-coffee-link"
 export { default as CryptoAddress } from "./crypto-address"
 export { default as Layout } from "./layout"
 export { default as SEO } from "./seo"

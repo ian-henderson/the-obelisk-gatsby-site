@@ -1,8 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path")
 
-exports.createPages = ({ graphql, actions: { createPage } }) => {
-  const createAuthorPages = new Promise((resolve, reject) => {
+exports.createPages = (args) =>
+  Promise.all([createAuthorPages, createBlogPosts].map((fn) => fn(args)))
+
+const createAuthorPages = ({ graphql, actions: { createPage } }) =>
+  new Promise((resolve, reject) => {
     const component = path.resolve("./src/templates/author-page.tsx")
 
     const query = `
@@ -23,19 +26,20 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
         reject(result.errors)
       }
 
-      result.data.allContentfulPerson.edges.forEach(({ node: { slug } }) => {
+      result.data.allContentfulPerson.edges.forEach(({ node: { slug } }) =>
         createPage({
           component,
           context: { slug },
           path: `/${slug}`,
         })
-      })
+      )
     }
 
     resolve(graphql(query).then(handleResult))
   })
 
-  const createBlogPosts = new Promise((resolve, reject) => {
+const createBlogPosts = ({ graphql, actions: { createPage } }) =>
+  new Promise((resolve, reject) => {
     const component = path.resolve("./src/templates/blog-post.tsx")
 
     const query = `
@@ -61,7 +65,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
 
       const posts = result.data.allContentfulBlogPost.edges
 
-      posts.forEach(({ node: { author, slug } }, i) => {
+      posts.forEach(({ node: { author, slug } }, i) =>
         createPage({
           component,
           context: {
@@ -72,11 +76,8 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
           },
           path: `/${author.slug}/${slug}`,
         })
-      })
+      )
     }
 
     resolve(graphql(query).then(handleResult))
   })
-
-  return Promise.all([createAuthorPages, createBlogPosts])
-}

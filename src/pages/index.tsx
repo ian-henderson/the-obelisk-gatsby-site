@@ -1,12 +1,12 @@
-import { graphql, PageProps } from "gatsby"
-import React from "react"
+import { graphql, Link, PageProps } from "gatsby"
+import React, { ReactNode } from "react"
 import { BlogPostList, Layout, SEO } from "../components"
-import { BlogPost } from "../types"
+import { ContentfulBlogPost } from "../types"
 
 type DataProps = {
   allContentfulBlogPost: {
-    edges: Array<{ node: BlogPost }>,
-  },
+    edges: Array<{ node: ContentfulBlogPost }>
+  }
 }
 
 export default function Index({
@@ -25,6 +25,9 @@ export default function Index({
     <Layout {...{ location }}>
       <SEO />
       <Content />
+      <h5>
+        <Link to="/support">Support this site →</Link>
+      </h5>
     </Layout>
   )
 }

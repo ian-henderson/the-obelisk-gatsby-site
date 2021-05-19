@@ -27,6 +27,8 @@ export type ContentfulBlogPost = {
 }
 
 export type ContentfulPerson = {
+  bitcoinAddress: string
+  buyMeACoffeeUsername: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any
   name: string

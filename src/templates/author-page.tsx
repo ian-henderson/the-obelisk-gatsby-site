@@ -3,7 +3,7 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import React from "react"
 import styled from "styled-components"
 // prettier-ignore
-import { BlogPostList, Layout, SEO } from "../components"
+import { BlogPostList, BuyMeACoffeeLink, CryptoAddress, Layout, SEO } from "../components"
 import { ContentfulBlogPost, ContentfulPerson } from "../types"
 
 type DataProps = {
@@ -20,6 +20,31 @@ export default function AuthorPage({
   },
   location,
 }: PageProps<DataProps>): JSX.Element {
+  function Support() {
+    const { bitcoinAddress, buyMeACoffeeUsername } = author || {}
+    if (!bitcoinAddress && !buyMeACoffeeUsername) return null
+
+    return (
+      <SupportSection>
+        <h2>Support my writing</h2>
+        {bitcoinAddress && (
+          <>
+            <h5>With Bitcoin</h5>
+            <CryptoAddress address={bitcoinAddress} name="BTC" />
+          </>
+        )}
+        {buyMeACoffeeUsername && (
+          <h5>
+            <BuyMeACoffeeLink
+              text="With coffee"
+              username={buyMeACoffeeUsername}
+            />
+          </h5>
+        )}
+      </SupportSection>
+    )
+  }
+
   return (
     <Layout {...{ location }}>
       <SEO description={author?.shortBio?.shortBio} title={author?.name} />
@@ -32,7 +57,12 @@ export default function AuthorPage({
           <H1>{author?.name}</H1>
           <Subtitle>{author?.shortBio?.shortBio}</Subtitle>
         </Header>
-        <BlogPostList showPublishDate {...{ posts }} />
+        <Support />
+        <hr />
+        <section>
+          <h2>Articles</h2>
+          <BlogPostList showPublishDate {...{ posts }} />
+        </section>
       </article>
     </Layout>
   )
@@ -51,6 +81,8 @@ export const pageQuery = graphql`
       }
     }
     author: contentfulPerson(slug: { eq: $slug }) {
+      bitcoinAddress
+      buyMeACoffeeUsername
       image {
         gatsbyImageData(placeholder: BLURRED, width: 100)
       }
@@ -69,8 +101,9 @@ const Header = styled.header`
 `
 
 const H1 = styled.h1`
+  text-align: center;
   margin: inherit;
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
 `
 
 const Subtitle = styled.p`
@@ -84,5 +117,9 @@ const Image = styled(GatsbyImage)`
   }
   height: 8rem;
   width: 8rem;
-  margin-bottom: var(--spacing-6);
+  margin-bottom: var(--spacing-12);
+`
+
+const SupportSection = styled.section`
+  padding-bottom: 2.5rem;
 `

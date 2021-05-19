@@ -28,14 +28,14 @@ export default createGlobalStyle`
     --spacing-20: 5rem;
     --spacing-24: 6rem;
     --spacing-32: 8rem;
-    --fontFamily-mono: "Anonymous Pro", "SF Mono", Courier, Consolas, monospace;
-    --fontFamily-sans: "Alegreya Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    --fontFamily-mono: "Roboto Mono", "SF Mono", Courier, Consolas, monospace;
+    --fontFamily-sans: Roboto, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --fontFamily-serif: Alegreya, Georgia, Cambria, "Times New Roman", Times,
+    --fontFamily-serif: Georgia, Cambria, "Times New Roman", Times,
     serif;
     --font-body: var(--fontFamily-sans);
-    --font-heading: var(--fontFamily-serif);
+    --font-heading: var(--fontFamily-mono);
     --fontWeight-normal: 400;
     --fontWeight-medium: 500;
     --fontWeight-semibold: 600;
@@ -146,7 +146,7 @@ export default createGlobalStyle`
 
   h1 {
     font-weight: var(--fontWeight-bold);
-    font-size: var(--fontSize-6);
+    font-size: var(--fontSize-4);
     color: var(--color-heading-black);
   }
 
@@ -160,7 +160,7 @@ export default createGlobalStyle`
     }
 
   h2 {
-    font-size: var(--fontSize-5);
+    font-size: var(--fontSize-3);
   }
 
   h3 {

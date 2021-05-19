@@ -83,8 +83,15 @@ module.exports = {
         ],
       },
     },
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        defaults: {
+          quality: 100,
+        },
+      },
+    },
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-feed`,
       options: {
